@@ -10,8 +10,8 @@ metadata:
 | Term | Definition |
 |------|------------|
 | API Key | User-generated key (`sk_live_*`) used for bearer auth. |
-| Draft | Game version state before submit/review. |
-| Validation | Pre-submit checks for metadata + SDK hooks. |
-| Blocker | Machine-readable issue returned from `agentPublish.validate`. |
-| Review | Status after successful submit and before approval/launch. |
-| Idempotency Key | Request key required on submit to prevent duplicate submissions. |
+| Draft | Editable game version state used by the agent REST flow. |
+| Validation | Readiness checks for metadata + SDK hooks. |
+| Blocker | Machine-readable issue returned from `GET /api/v1/agents/games/{gameId}/versions/{versionId}/validate`. |
+| Status | Version state from `status` endpoint: `draft`, `blocked`, `review`, `approved`, or `live`. |
+| Live Version | The currently launched version; cannot be modified by agent REST code updates. |

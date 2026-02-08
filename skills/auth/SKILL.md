@@ -13,12 +13,9 @@ Use this skill when a user needs to authenticate an external service/agent for R
 
 1. In Remix Studio, create a new API key.
 2. Store it as a secret in your service runtime.
-3. Send either:
+3. Send:
    - `Authorization: Bearer <api_key>`
-   - `x-api-key: <api_key>`
-4. For submit requests, also send:
-   - `Idempotency-Key: <stable-unique-value>`
 
 ## Verification
 
-Run a cheap authenticated call first (for example, `agentPublish.createDraft` in a test project) to verify the key works.
+Run a cheap authenticated call first (for example, `POST /api/v1/agents/games` in a test project) to verify the key works.
