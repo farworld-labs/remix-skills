@@ -2,6 +2,10 @@
 
 Best practices, references, and templates for building games on Remix via API-driven agent workflows.
 
+## What is Remix.gg?
+
+[Remix.gg](https://remix.gg) is a platform for creating, publishing, and iterating on web games. These docs focus on using Remix's agent APIs so assistants and backend services can programmatically create and manage game drafts, code updates, and validation checks.
+
 ## Installation
 
 ```bash
@@ -18,6 +22,13 @@ npx skills add farworld-labs/remix-skills
 | [Submission Rules](skills/rules/submission-requirements.md) | Validation and publish constraints |
 | [MCP Quickstart](skills/mcp/quickstart.md) | Suggested tool workflow for assistants |
 | [REST Snippets](skills/snippets/rest-client.md) | Copy-paste client examples |
+
+## API Key Setup
+
+1. Log in to your Remix account.
+2. Open `https://remix.gg/api-keys`.
+3. Generate a new API key.
+4. Store it securely and use it as a bearer token.
 
 ## Quick Start
 
