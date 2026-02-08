@@ -1,0 +1,23 @@
+{
+  "name": "remix-agent-publish",
+  "owner": {
+    "name": "Remix",
+    "url": "https://remix.gg"
+  },
+  "metadata": {
+    "description": "Skills for API-driven game publishing on Remix",
+    "version": "1.0.0",
+    "repository": "https://github.com/remix-gg/skills"
+  },
+  "plugins": [
+    {
+      "name": "remix-agent-publish",
+      "description": "Remix agent publishing skill (auth, API reference, workflow, snippets)",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills"
+      ]
+    }
+  ]
+}
