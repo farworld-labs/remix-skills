@@ -14,5 +14,6 @@ Use this skill when users want to automate game publishing on Remix (`remix.gg`)
 - Read [API Authentication](api/authentication.md) first.
 - Use [API Reference](api/reference.md) for endpoint contracts.
 - Apply [Submission Rules](rules/submission-requirements.md) for validation requirements.
+- Follow [Game Creation Best Practices](rules/game-creation-best-practices.md) for mobile-first and SDK-safe implementation.
 - Use [REST Snippets](snippets/rest-client.md) for client integration examples.
 - Use [MCP Quickstart](mcp/quickstart.md) for assistant workflows.
