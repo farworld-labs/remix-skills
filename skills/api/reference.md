@@ -1,161 +1,156 @@
 ---
 name: api-reference
-description: API reference for Remix agent publishing procedures
+description: API reference for Remix agent publishing REST routes
 metadata:
-  tags: remix, api, trpc, reference
+  tags: remix, api, rest, reference
 ---
 
 ## Transport
 
-Current endpoints are exposed via tRPC procedures.
+Current agent publishing endpoints are exposed as REST routes under `/api/v1/agents`.
 
-- Agent publish procedures: `agentPublish.*`
-- Supporting metadata procedures: `game.*`
+Base headers:
 
-## Procedures
+```http
+Authorization: Bearer sk_live_xxx
+Content-Type: application/json
+```
 
-### `agentPublish.createDraft`
+## Response Envelope
+
+Success:
+
+```json
+{ "success": true, "data": { "...": "..." } }
+```
+
+Error:
+
+```json
+{ "success": false, "error": { "code": "SOME_CODE", "message": "...", "details": null } }
+```
+
+## Routes
+
+### `POST /api/v1/agents/games`
 Create a new game draft and initial version.
 
 Input:
+
 ```json
 { "name": "Neon Dash" }
 ```
 
-Output:
-```json
-{ "gameId": "...", "versionId": "..." }
-```
+Output (`201`):
 
-### `agentPublish.createVersion`
-Create a new draft version for an existing game.
-
-Input:
-```json
-{ "gameId": "...", "basedOnVersionId": "optional" }
-```
-
-Output:
-```json
-{ "gameId": "...", "versionId": "..." }
-```
-
-### `agentPublish.uploadCode`
-Upload/update HTML game code for a version.
-
-Input:
-```json
-{ "gameId": "...", "versionId": "...", "code": "<html>...</html>" }
-```
-
-Output:
-```json
-{ "success": true, "threadId": "..." }
-```
-
-### `agentPublish.validate`
-Returns machine-readable blockers for submit readiness.
-
-Input:
-```json
-{ "gameId": "...", "versionId": "..." }
-```
-
-Output:
 ```json
 {
-  "gameId": "...",
-  "versionId": "...",
-  "valid": false,
-  "blockers": [
-    {
-      "code": "MISSING_SDK_TOGGLE_MUTE",
-      "message": "SDK onToggleMute handler not found.",
-      "fix": "Add window.FarcadeSDK.onToggleMute((data) => { ... })."
+  "success": true,
+  "data": {
+    "game": {
+      "id": "...",
+      "name": "Neon Dash",
+      "createdAt": "...",
+      "version": {
+        "id": "...",
+        "createdAt": "..."
+      }
     }
-  ]
-}
-```
-
-### `agentPublish.submit`
-Submit a version for review.
-
-Requirements:
-- `Idempotency-Key` header required
-
-Input:
-```json
-{
-  "gameId": "...",
-  "versionId": "...",
-  "gameJamId": null,
-  "releaseNotes": "optional",
-  "releaseTypes": {
-    "isBugFix": false,
-    "isNewFeature": true,
-    "isNewGame": false
   }
 }
 ```
 
-Output:
+Constraints:
+- User must be authenticated and not banned/deleted.
+- Enforces in-development game cap (`20`) unless admin.
+
+### `PUT /api/v1/agents/games/{gameId}/versions/{versionId}/code`
+Update code for an existing version.
+
+Input:
+
+```json
+{ "code": "<html>...</html>" }
+```
+
+Output (`200`):
+
 ```json
 {
-  "gameId": "...",
-  "versionId": "...",
-  "status": "review",
-  "submittedAt": "2026-02-07T..."
+  "success": true,
+  "data": {
+    "success": true,
+    "gameId": "...",
+    "versionId": "...",
+    "threadId": "..."
+  }
 }
 ```
 
-### `agentPublish.status`
+Constraints:
+- Scoped to owner (or admin).
+- Code size must be between `10` and `1_000_000` characters.
+- Updates existing version only.
+- Cannot update live version.
+- Cannot update submitted/launched/approved versions.
+
+### `GET /api/v1/agents/games/{gameId}/versions/{versionId}/validate`
+Returns machine-readable blockers for readiness checks.
+
+Output (`200`):
+
+```json
+{
+  "success": true,
+  "data": {
+    "gameId": "...",
+    "versionId": "...",
+    "valid": false,
+    "blockers": [
+      {
+        "code": "MISSING_SDK_TOGGLE_MUTE",
+        "message": "SDK onToggleMute handler not found.",
+        "fix": "Add window.FarcadeSDK.onToggleMute((data) => { ... })."
+      }
+    ]
+  }
+}
+```
+
+### `GET /api/v1/agents/games/{gameId}/versions/{versionId}/status`
 Get publishing status for a version.
 
-Input:
-```json
-{ "gameId": "...", "versionId": "..." }
-```
+Output (`200`):
 
-Output:
 ```json
 {
-  "gameId": "...",
-  "versionId": "...",
-  "status": "draft|blocked|review|approved|live",
-  "submittedAt": null,
-  "approvedAt": null,
-  "launchedAt": null,
-  "feedback": null
+  "success": true,
+  "data": {
+    "gameId": "...",
+    "versionId": "...",
+    "status": "draft|blocked|review|approved|live",
+    "submittedAt": null,
+    "approvedAt": null,
+    "launchedAt": null,
+    "feedback": null
+  }
 }
 ```
 
-## Metadata Procedures Required for Submit Readiness
+## Not Exposed in Agent REST
 
-### `game.updateName`
-Set game name.
+- No delete route.
+- No create-version route.
+- No submit route.
 
-Input:
-```json
-{ "gameId": "...", "name": "Neon Dash" }
-```
+Agent flow is create game + update current version + validate/status.
 
-### `game.addCategory`
-Add category (1-3 required overall).
+## Common Error Codes
 
-Input:
-```json
-{ "gameId": "...", "category": "ARCADE" }
-```
-
-### Icon (current limitation)
-
-Submit readiness requires an icon, but there is no dedicated `agentPublish` icon update procedure yet.
-Current path is Remix Studio UI/internal upload flows. If icon is missing, `agentPublish.validate` returns blockers.
-
-## Common Errors
-
-- `UNAUTHORIZED` - Missing/invalid API key or session.
+- `UNAUTHORIZED` - Missing/invalid API key.
+- `ACCOUNT_INELIGIBLE` - User is banned/deleted.
 - `FORBIDDEN` - User does not own the game/version.
-- `NOT_FOUND` - Game/version does not exist or mismatch.
-- `BAD_REQUEST` - Validation failure or missing idempotency key on submit.
-- `TOO_MANY_REQUESTS` - API key rate limit exceeded.
+- `VERSION_NOT_FOUND` - Game/version mismatch or missing.
+- `MAX_IN_DEV_GAMES_EXCEEDED` - Creator reached cap.
+- `VALIDATION_ERROR` - Body/query failed validation.
+- `RATE_LIMITED` - API key rate limit exceeded.

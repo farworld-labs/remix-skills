@@ -1,6 +1,6 @@
 # Submission Requirements
 
-A version should be considered submit-ready only when all are true:
+A version should be considered launch-ready only when all are true:
 
 - Game code exists
 - Game has name, icon, and >=1 category
@@ -9,10 +9,18 @@ A version should be considered submit-ready only when all are true:
   - `window.FarcadeSDK.onPlayAgain(...)`
   - `window.FarcadeSDK.onToggleMute(...)`
 
-## How to satisfy metadata requirements (current)
+## Agent REST flow constraints
 
-- Name: `game.updateName`
-- Category: `game.addCategory` (1-3)
-- Icon: Remix Studio UI/internal upload flow (no dedicated `agentPublish` icon mutation yet)
+- Create a game draft via `POST /api/v1/agents/games`.
+- Update current version via `PUT /api/v1/agents/games/{gameId}/versions/{versionId}/code`.
+- Do not create extra versions from agent REST (no create-version route).
+- Do not submit from agent REST (no submit route).
+- Never update a live version.
 
-Use `agentPublish.validate` to confirm before submit.
+## Metadata requirements (current)
+
+- Name: set via existing game metadata APIs.
+- Category: add 1-3 categories via existing game metadata APIs.
+- Icon: Remix Studio UI/internal upload flow (no dedicated agent REST icon route yet).
+
+Use `GET /api/v1/agents/games/{gameId}/versions/{versionId}/validate` to confirm blockers.

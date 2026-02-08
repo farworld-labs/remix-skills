@@ -1,0 +1,54 @@
+---
+name: agent-rest-snippets
+description: REST client snippets for Remix agent publishing
+metadata:
+  tags: remix, rest, snippets
+---
+
+## TypeScript (REST)
+
+```ts
+const headers = {
+  Authorization: `Bearer ${process.env.REMIX_API_KEY!}`,
+  'Content-Type': 'application/json',
+}
+
+const createRes = await fetch(`${baseUrl}/api/v1/agents/games`, {
+  method: 'POST',
+  headers,
+  body: JSON.stringify({ name: 'Neon Dash' }),
+})
+const createJson = await createRes.json()
+if (!createJson.success) throw new Error(createJson.error.message)
+
+const gameId = createJson.data.game.id as string
+const versionId = createJson.data.game.version.id as string
+
+const updateRes = await fetch(
+  `${baseUrl}/api/v1/agents/games/${gameId}/versions/${versionId}/code`,
+  {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ code: html }),
+  },
+)
+const updateJson = await updateRes.json()
+if (!updateJson.success) throw new Error(updateJson.error.message)
+
+const validateRes = await fetch(
+  `${baseUrl}/api/v1/agents/games/${gameId}/versions/${versionId}/validate`,
+  { method: 'GET', headers },
+)
+const validateJson = await validateRes.json()
+if (!validateJson.success) throw new Error(validateJson.error.message)
+if (!validateJson.data.valid) {
+  throw new Error(`Blocked: ${validateJson.data.blockers.map((b: { code: string }) => b.code).join(', ')}`)
+}
+
+const statusRes = await fetch(
+  `${baseUrl}/api/v1/agents/games/${gameId}/versions/${versionId}/status`,
+  { method: 'GET', headers },
+)
+const statusJson = await statusRes.json()
+if (!statusJson.success) throw new Error(statusJson.error.message)
+```
