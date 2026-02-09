@@ -22,6 +22,7 @@ npx skills add farworld-labs/remix-skills
 | [Submission Rules](skills/rules/submission-requirements.md) | Validation and publish constraints |
 | [MCP Quickstart](skills/mcp/quickstart.md) | Suggested tool workflow for assistants |
 | [REST Snippets](skills/snippets/rest-client.md) | Copy-paste client examples |
+| [Phaser 2D Arcade Skill](skills/frameworks/phaser-2d-arcade/SKILL.md) | Companion build skill for Phaser browser games |
 
 ## API Key Setup
 

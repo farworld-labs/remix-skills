@@ -13,6 +13,7 @@ Use this skill when users want to automate game publishing on Remix (`remix.gg`)
 
 - Read [API Authentication](api/authentication.md) first.
 - Use [API Reference](api/reference.md) for endpoint contracts.
+- For Phaser builds, use [Phaser 2D Arcade Companion Skill](frameworks/phaser-2d-arcade/SKILL.md).
 - Use [Game SDK Reference](references/game-sdk.md) when generating or fixing game code.
 - Apply [Submission Rules](rules/submission-requirements.md) for validation requirements.
 - Follow [Game Creation Best Practices](rules/game-creation-best-practices.md) for mobile-first and SDK-safe implementation.
