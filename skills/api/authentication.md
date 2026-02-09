@@ -44,4 +44,4 @@ Content-Type: application/json
 - Verify the key is active in `https://remix.gg/api-keys` (not revoked or expired).
 - Generate a new key and retry if you suspect the original key was copied incorrectly.
 - Ensure requests are sent from your server/backend, not client-side browser code.
-- For definitive request/response contracts, check `https://api.remix.gg/openapi`.
+- For definitive request/response contracts, check `https://api.remix.gg/docs`.

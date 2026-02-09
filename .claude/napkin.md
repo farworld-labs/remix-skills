@@ -5,6 +5,7 @@
 |------|--------|-----------------|--------------------|
 | 2026-02-09 | Self | Tried to read Next.js dynamic route files without quoting bracketed path segments; zsh expanded as glob and failed. | Quote paths containing `[` and `]` (or escape brackets) when using shell tools like `sed` and `cat`. |
 | 2026-02-09 | Self | Renamed a skill `name` field during docs migration, which can break existing references/triggers. | Keep skill `name` stable unless explicitly requested; update body/docs without renaming identifiers. |
+| 2026-02-09 | Self | Assumed `apps/server-api/src/routes/agents.ts` still existed after layout change and initial reads failed. | Re-discover file paths with `rg --files` before editing docs when service layout changes. |
 
 ## User Preferences
 - Keep git remote changes direct: update `origin` when user provides a new repo URL.
@@ -14,8 +15,10 @@
 ## Patterns That Work
 - Verify current remotes with `git remote -v` before changing `origin`.
 - Quote dynamic route paths containing `[` and `]` when reading Next.js app router files from shell commands.
-- For Remix API doc updates, read `apps/server-api/src/routes/agents.ts` and `https://api.remix.gg/openapi` first, then patch all skill references in one pass.
+- For Remix API doc updates, read `apps/server-api/routes/agents.ts` and `https://api.remix.gg/docs` first, then patch all skill references in one pass.
 - When `server-api` adds routes, update both core reference docs and the quickstart/discovery sections so agents can actually use the new read endpoints.
+- For framework companion skills, keep a consistent layout under `skills/frameworks/<skill-name>/` with `SKILL.md`, `references/`, and `assets/`.
+- Keep local API docs concise and OpenAPI-first; avoid duplicating full endpoint contracts that drift.
 
 ## Patterns That Don't Work
 - None yet.
@@ -31,3 +34,6 @@
 - 2026-02-09: Restored explicit key issuance guidance (`https://remix.gg/api-keys`) after token-wording migration to avoid dropping user onboarding steps.
 - 2026-02-09: Expanded skills for new server-api routes: game/version list/detail, code/thread fetch, assets list, launch-readiness, and metadata categories.
 - 2026-02-09: Added `skills/frameworks/phaser-2d-arcade` companion skill with references and a starter single-file template; linked from top-level README and Remix skill index.
+- 2026-02-09: Added `skills/frameworks/threejs-lite` companion skill with mobile/perf references and single-file starter template; linked from top-level README and Remix skill index.
+- 2026-02-09: Synced skills to URL updates in `apps/server-api/routes/agents.ts`: added `gameUrl`/`versionUrl` family fields, switched code upload docs to `POST /v1/agents/games/{gameId}/versions/{versionId}/code`, and updated OpenAPI fallback links to `/docs`.
+- 2026-02-09: Refactored skills to OpenAPI-first workflow: fetch `https://api.remix.gg/docs/json` before generating calls, and slimmed `skills/api/reference.md` to stable guardrails.

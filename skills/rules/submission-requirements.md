@@ -12,7 +12,7 @@ A version should be considered launch-ready only when all are true:
 ## Agent REST flow constraints
 
 - Create a game draft via `POST /v1/agents/games`.
-- Update current version via `PUT /v1/agents/games/{gameId}/versions/{versionId}/code`.
+- Update current version via `POST /v1/agents/games/{gameId}/versions/{versionId}/code`.
 - Do not create extra versions from agent REST (no create-version route).
 - Do not submit from agent REST (no submit route).
 - Never update a live version.

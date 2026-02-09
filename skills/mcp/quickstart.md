@@ -9,18 +9,20 @@ metadata:
 
 Base URL: `https://api.remix.gg`
 
-1. `GET /v1/agents/metadata/categories` to fetch valid category enums.
-2. `POST /v1/agents/games`
-3. Build game code against `window.FarcadeSDK` requirements (see `references/game-sdk.md`)
-4. Set required metadata:
+1. Fetch OpenAPI JSON from `https://api.remix.gg/docs/json`.
+2. Resolve exact methods/paths/schemas from the spec.
+3. `GET /v1/agents/metadata/categories` to fetch valid category enums.
+4. `POST /v1/agents/games`
+5. Build game code against `window.FarcadeSDK` requirements (see `references/game-sdk.md`)
+6. Set required metadata:
    - Name: game metadata APIs
    - Category: game metadata APIs (1-3)
    - Icon: Remix Studio/internal upload flow currently
-5. `PUT /v1/agents/games/{gameId}/versions/{versionId}/code`
-6. `GET /v1/agents/games/{gameId}/versions/{versionId}/validate`
-7. Optional: `GET /v1/agents/games/{gameId}/launch-readiness?versionId={versionId}`
-8. If blockers exist, patch code/metadata and repeat validation
-9. `GET /v1/agents/games/{gameId}/versions/{versionId}/status`
+7. `POST /v1/agents/games/{gameId}/versions/{versionId}/code`
+8. `GET /v1/agents/games/{gameId}/versions/{versionId}/validate`
+9. Optional: `GET /v1/agents/games/{gameId}/launch-readiness?versionId={versionId}`
+10. If blockers exist, patch code/metadata and repeat validation
+11. `GET /v1/agents/games/{gameId}/versions/{versionId}/status`
 
 ## Discovery / Inspection Endpoints
 
@@ -36,6 +38,7 @@ Base URL: `https://api.remix.gg`
 
 - Never skip validation checks.
 - Treat `blockers[]` as source of truth.
+- Do not trust cached path/method memory when OpenAPI is available.
 - Do not create extra versions from agent REST.
 - Do not submit from agent REST.
-- If docs are stale, check `https://api.remix.gg/openapi`.
+- If docs are stale, check `https://api.remix.gg/docs`.

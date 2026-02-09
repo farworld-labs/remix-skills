@@ -12,8 +12,10 @@ Use this skill when users want to automate game publishing on Remix (`remix.gg`)
 ## How to use
 
 - Read [API Authentication](api/authentication.md) first.
-- Use [API Reference](api/reference.md) for endpoint contracts.
+- Fetch OpenAPI spec at `https://api.remix.gg/docs/json` before generating API calls.
+- Use [API Reference](api/reference.md) for workflow guardrails (not as the method/path source of truth).
 - For Phaser builds, use [Phaser 2D Arcade Companion Skill](frameworks/phaser-2d-arcade/SKILL.md).
+- For lightweight 3D builds, use [Three.js Lite Companion Skill](frameworks/threejs-lite/SKILL.md).
 - Use [Game SDK Reference](references/game-sdk.md) when generating or fixing game code.
 - Apply [Submission Rules](rules/submission-requirements.md) for validation requirements.
 - Follow [Game Creation Best Practices](rules/game-creation-best-practices.md) for mobile-first and SDK-safe implementation.
@@ -24,10 +26,10 @@ Use this skill when users want to automate game publishing on Remix (`remix.gg`)
 
 When docs and runtime behavior disagree, defer to the server API source and OpenAPI docs:
 
-- `https://api.remix.gg/openapi`
-- `https://api.remix.gg/openapi/json`
-- `apps/server-api/src/routes/agents.ts`
-- `apps/server-api/src/lib/api-auth.ts`
-- `apps/server-api/src/lib/agent-api.ts`
-- `apps/server-api/src/index.ts`
+- `https://api.remix.gg/docs`
+- `https://api.remix.gg/docs/json`
+- `apps/server-api/routes/agents.ts`
+- `apps/server-api/lib/api-auth.ts`
+- `apps/server-api/lib/agent-api.ts`
+- `apps/server-api/app/[...path]/route.ts`
 - `packages/game-sdk/src/index.ts`

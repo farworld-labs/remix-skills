@@ -14,6 +14,11 @@ const headers = {
   'Content-Type': 'application/json',
 }
 
+const openApiSpec = await fetch(`${baseUrl}/docs/json`, {
+  method: 'GET',
+  headers,
+}).then((r) => r.json())
+
 const createRes = await fetch(`${baseUrl}/v1/agents/games`, {
   method: 'POST',
   headers,
@@ -28,7 +33,7 @@ const versionId = createJson.data.game.version.id as string
 const updateRes = await fetch(
   `${baseUrl}/v1/agents/games/${gameId}/versions/${versionId}/code`,
   {
-    method: 'PUT',
+    method: 'POST',
     headers,
     body: JSON.stringify({ code: html }),
   },

@@ -23,6 +23,7 @@ npx skills add farworld-labs/remix-skills
 | [MCP Quickstart](skills/mcp/quickstart.md) | Suggested tool workflow for assistants |
 | [REST Snippets](skills/snippets/rest-client.md) | Copy-paste client examples |
 | [Phaser 2D Arcade Skill](skills/frameworks/phaser-2d-arcade/SKILL.md) | Companion build skill for Phaser browser games |
+| [Three.js Lite Skill](skills/frameworks/threejs-lite/SKILL.md) | Companion build skill for lightweight 3D browser games |
 
 ## API Key Setup
 
@@ -36,6 +37,9 @@ npx skills add farworld-labs/remix-skills
 ```ts
 const baseUrl = 'https://api.remix.gg'
 
+// 0) fetch the live contract first
+const openApiSpec = await fetch(`${baseUrl}/docs/json`).then((r) => r.json())
+
 // 1) create draft game
 const create = await fetch(`${baseUrl}/v1/agents/games`, {
   method: 'POST',
@@ -48,7 +52,7 @@ const versionId = create.data.game.version.id
 
 // 2) update current version code
 await fetch(`${baseUrl}/v1/agents/games/${gameId}/versions/${versionId}/code`, {
-  method: 'PUT',
+  method: 'POST',
   headers,
   body: JSON.stringify({ code: html }),
 })
@@ -85,4 +89,4 @@ This repo documents the current model:
 - bearer auth (`Authorization: Bearer <api_key>`)
 - ownership checks + lightweight rate limiting
 - no agent REST submit endpoint
-- docs fallback at `https://api.remix.gg/openapi`
+- docs fallback at `https://api.remix.gg/docs`
