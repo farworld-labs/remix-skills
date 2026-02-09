@@ -6,6 +6,7 @@
 | 2026-02-09 | Self | Tried to read Next.js dynamic route files without quoting bracketed path segments; zsh expanded as glob and failed. | Quote paths containing `[` and `]` (or escape brackets) when using shell tools like `sed` and `cat`. |
 | 2026-02-09 | Self | Renamed a skill `name` field during docs migration, which can break existing references/triggers. | Keep skill `name` stable unless explicitly requested; update body/docs without renaming identifiers. |
 | 2026-02-09 | Self | Assumed `apps/server-api/src/routes/agents.ts` still existed after layout change and initial reads failed. | Re-discover file paths with `rg --files` before editing docs when service layout changes. |
+| 2026-02-09 | Self | Tried to validate live API docs via `curl https://api.remix.gg/...`; DNS resolution failed in this environment. | When external DNS is unavailable, verify changes from local repo history/docs and clearly mark date-scoped guidance. |
 
 ## User Preferences
 - Keep git remote changes direct: update `origin` when user provides a new repo URL.

@@ -19,7 +19,7 @@ Implement all of these:
 ## Submission Safety
 
 - Keep final output as single-file HTML when using Remix agent code upload.
+- If your game needs external images/audio, upload them in Remix Studio/app flow and reference URLs returned by `GET /v1/agents/games/{gameId}/assets`.
 - Ensure score is numeric and stable at game end.
 - Do not rely on localStorage for authoritative progression.
 - Ensure restart path fully resets Phaser scene state.
-

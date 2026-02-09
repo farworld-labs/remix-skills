@@ -82,6 +82,12 @@ await fetch(`${baseUrl}/v1/agents/games/${gameId}/versions/${versionId}/status`,
 - `GET /v1/agents/games/{gameId}/assets`
 - `GET /v1/agents/games/{gameId}/launch-readiness?versionId={versionId}`
 
+## Asset Uploads (Current)
+
+- As of February 9, 2026, asset upload is handled through the Remix app/Studio flow.
+- Agent REST currently exposes `GET /v1/agents/games/{gameId}/assets` for read-only asset discovery.
+- Recommended workflow: upload icon/sprites/audio in the app first, then reference returned hosted URLs in game code.
+
 ## Auth Model (Current Pass)
 
 This repo documents the current model:

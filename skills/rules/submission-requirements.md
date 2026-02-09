@@ -21,7 +21,8 @@ A version should be considered launch-ready only when all are true:
 
 - Name: set via existing game metadata APIs.
 - Category: add 1-3 categories via existing game metadata APIs.
-- Icon: Remix Studio UI/internal upload flow (no dedicated agent REST icon route yet).
+- Icon: upload in Remix Studio/app flow (no dedicated agent REST icon route yet).
+- Binary assets: upload in Remix Studio/app flow, then use `GET /v1/agents/games/{gameId}/assets` to map hosted URLs into code.
 
 Use `GET /v1/agents/games/{gameId}/versions/{versionId}/validate` to confirm blockers.
 Use `GET /v1/agents/games/{gameId}/launch-readiness?versionId={versionId}` when you want an aggregate readiness signal (`valid` + `readyForSubmission`).

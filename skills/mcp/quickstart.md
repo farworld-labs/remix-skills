@@ -17,12 +17,14 @@ Base URL: `https://api.remix.gg`
 6. Set required metadata:
    - Name: game metadata APIs
    - Category: game metadata APIs (1-3)
-   - Icon: Remix Studio/internal upload flow currently
-7. `POST /v1/agents/games/{gameId}/versions/{versionId}/code`
-8. `GET /v1/agents/games/{gameId}/versions/{versionId}/validate`
-9. Optional: `GET /v1/agents/games/{gameId}/launch-readiness?versionId={versionId}`
-10. If blockers exist, patch code/metadata and repeat validation
-11. `GET /v1/agents/games/{gameId}/versions/{versionId}/status`
+   - Icon: upload in Remix Studio/app flow
+7. Upload required binary assets (icon/sprites/audio) in Remix Studio/app flow.
+8. `GET /v1/agents/games/{gameId}/assets` to confirm hosted asset URLs.
+9. `POST /v1/agents/games/{gameId}/versions/{versionId}/code`
+10. `GET /v1/agents/games/{gameId}/versions/{versionId}/validate`
+11. Optional: `GET /v1/agents/games/{gameId}/launch-readiness?versionId={versionId}`
+12. If blockers exist, patch code/metadata and repeat validation
+13. `GET /v1/agents/games/{gameId}/versions/{versionId}/status`
 
 ## Discovery / Inspection Endpoints
 
@@ -38,6 +40,7 @@ Base URL: `https://api.remix.gg`
 
 - Never skip validation checks.
 - Treat `blockers[]` as source of truth.
+- Treat agent REST assets as read-only discovery; do not assume an asset upload REST route exists.
 - Do not trust cached path/method memory when OpenAPI is available.
 - Do not create extra versions from agent REST.
 - Do not submit from agent REST.

@@ -48,7 +48,7 @@ Use OpenAPI for exact paths; these are the stable groups:
 - Metadata: categories
 - Games: list/detail/create
 - Versions: list/detail/code/thread/status/validate/code-update
-- Assets: list game assets
+- Assets: list game assets (read-only discovery for app-uploaded files)
 - Readiness: launch readiness checks
 
 ## Not Exposed in Agent REST
@@ -57,6 +57,12 @@ Use OpenAPI for exact paths; these are the stable groups:
 - No create-version route.
 - No submit route.
 - No write endpoints for game metadata or assets in this surface.
+
+## Asset Upload State (As of February 9, 2026)
+
+- Binary asset uploads (including icon/image/audio files) are handled in the Remix app/Studio upload flow.
+- Agent REST currently exposes asset discovery via `GET /v1/agents/games/{gameId}/assets` only.
+- Recommended pattern: upload assets in the app first, then reference hosted asset URLs from the assets list in your HTML game code.
 
 Canonical flow:
 1. create game
