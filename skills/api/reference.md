@@ -63,6 +63,8 @@ Output (`201`):
 Constraints:
 - User must be authenticated and not banned/deleted.
 - Enforces in-development game cap (`20`) unless admin.
+- `name` is optional, trimmed, and max `80` chars.
+- If `name` is omitted, server uses `New Game YYYY-MM-DD`.
 
 ### `PUT /api/v1/agents/games/{gameId}/versions/{versionId}/code`
 Update code for an existing version.
@@ -93,6 +95,8 @@ Constraints:
 - Updates existing version only.
 - Cannot update live version.
 - Cannot update submitted/launched/approved versions.
+- Resets publish fields (`submittedAt`, `approvedAt`, `launchedAt`, `feedback`) and SDK checks after write.
+- Creates a thread when missing and uploads code to agent-builder.
 
 ### `GET /api/v1/agents/games/{gameId}/versions/{versionId}/validate`
 Returns machine-readable blockers for readiness checks.
@@ -117,6 +121,16 @@ Output (`200`):
 }
 ```
 
+Validation checks currently include:
+
+- `MISSING_CODE`
+- `MISSING_NAME`
+- `MISSING_ICON`
+- `MISSING_CATEGORY`
+- `MISSING_SDK_GAME_OVER`
+- `MISSING_SDK_PLAY_AGAIN`
+- `MISSING_SDK_TOGGLE_MUTE`
+
 ### `GET /api/v1/agents/games/{gameId}/versions/{versionId}/status`
 Get publishing status for a version.
 
@@ -137,6 +151,14 @@ Output (`200`):
 }
 ```
 
+Status mapping is server-derived:
+
+- `live` when `launchedAt` exists
+- `approved` when `approvedAt` exists
+- `review` when `submittedAt` exists
+- `blocked` when `feedback` exists
+- `draft` otherwise
+
 ## Not Exposed in Agent REST
 
 - No delete route.
@@ -153,4 +175,9 @@ Agent flow is create game + update current version + validate/status.
 - `VERSION_NOT_FOUND` - Game/version mismatch or missing.
 - `MAX_IN_DEV_GAMES_EXCEEDED` - Creator reached cap.
 - `VALIDATION_ERROR` - Body/query failed validation.
+- `INVALID_JSON` - Body could not be parsed as JSON.
+- `LIVE_VERSION_LOCKED` - Attempted to edit a live version.
+- `VERSION_NOT_EDITABLE` - Version is submitted/approved/launched.
+- `THREAD_CREATE_FAILED` - Failed to provision upload thread.
 - `RATE_LIMITED` - API key rate limit exceeded.
+- `INTERNAL_SERVER_ERROR` - Unexpected server failure.
