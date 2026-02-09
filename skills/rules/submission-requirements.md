@@ -11,8 +11,8 @@ A version should be considered launch-ready only when all are true:
 
 ## Agent REST flow constraints
 
-- Create a game draft via `POST /api/v1/agents/games`.
-- Update current version via `PUT /api/v1/agents/games/{gameId}/versions/{versionId}/code`.
+- Create a game draft via `POST /v1/agents/games`.
+- Update current version via `PUT /v1/agents/games/{gameId}/versions/{versionId}/code`.
 - Do not create extra versions from agent REST (no create-version route).
 - Do not submit from agent REST (no submit route).
 - Never update a live version.
@@ -23,4 +23,5 @@ A version should be considered launch-ready only when all are true:
 - Category: add 1-3 categories via existing game metadata APIs.
 - Icon: Remix Studio UI/internal upload flow (no dedicated agent REST icon route yet).
 
-Use `GET /api/v1/agents/games/{gameId}/versions/{versionId}/validate` to confirm blockers.
+Use `GET /v1/agents/games/{gameId}/versions/{versionId}/validate` to confirm blockers.
+Use `GET /v1/agents/games/{gameId}/launch-readiness?versionId={versionId}` when you want an aggregate readiness signal (`valid` + `readyForSubmission`).

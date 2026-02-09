@@ -16,8 +16,8 @@ npx skills add farworld-labs/remix-skills
 
 | Topic | Description |
 |-------|-------------|
-| [API Reference](skills/api/reference.md) | Endpoint reference for `/api/v1/agents/*` |
-| [API Authentication](skills/api/authentication.md) | Using existing Remix API keys |
+| [API Reference](skills/api/reference.md) | Endpoint reference for `https://api.remix.gg/v1/agents/*` |
+| [API Authentication](skills/api/authentication.md) | Using bearer API keys from Remix account settings |
 | [Auth Setup](skills/auth/SKILL.md) | How to create/use API keys for agents |
 | [Submission Rules](skills/rules/submission-requirements.md) | Validation and publish constraints |
 | [MCP Quickstart](skills/mcp/quickstart.md) | Suggested tool workflow for assistants |
@@ -33,8 +33,10 @@ npx skills add farworld-labs/remix-skills
 ## Quick Start
 
 ```ts
+const baseUrl = 'https://api.remix.gg'
+
 // 1) create draft game
-const create = await fetch(`${baseUrl}/api/v1/agents/games`, {
+const create = await fetch(`${baseUrl}/v1/agents/games`, {
   method: 'POST',
   headers,
   body: JSON.stringify({ name: 'Neon Dash' }),
@@ -44,7 +46,7 @@ const gameId = create.data.game.id
 const versionId = create.data.game.version.id
 
 // 2) update current version code
-await fetch(`${baseUrl}/api/v1/agents/games/${gameId}/versions/${versionId}/code`, {
+await fetch(`${baseUrl}/v1/agents/games/${gameId}/versions/${versionId}/code`, {
   method: 'PUT',
   headers,
   body: JSON.stringify({ code: html }),
@@ -52,21 +54,34 @@ await fetch(`${baseUrl}/api/v1/agents/games/${gameId}/versions/${versionId}/code
 
 // 3) validate blockers
 const report = await fetch(
-  `${baseUrl}/api/v1/agents/games/${gameId}/versions/${versionId}/validate`,
+  `${baseUrl}/v1/agents/games/${gameId}/versions/${versionId}/validate`,
   { method: 'GET', headers },
 ).then((r) => r.json())
 
 // 4) check status
-await fetch(`${baseUrl}/api/v1/agents/games/${gameId}/versions/${versionId}/status`, {
+await fetch(`${baseUrl}/v1/agents/games/${gameId}/versions/${versionId}/status`, {
   method: 'GET',
   headers,
 })
 ```
 
+## Additional Read Endpoints
+
+- `GET /v1/agents/metadata/categories`
+- `GET /v1/agents/games`
+- `GET /v1/agents/games/{gameId}`
+- `GET /v1/agents/games/{gameId}/versions`
+- `GET /v1/agents/games/{gameId}/versions/{versionId}`
+- `GET /v1/agents/games/{gameId}/versions/{versionId}/code`
+- `GET /v1/agents/games/{gameId}/versions/{versionId}/thread`
+- `GET /v1/agents/games/{gameId}/assets`
+- `GET /v1/agents/games/{gameId}/launch-readiness?versionId={versionId}`
+
 ## Auth Model (Current Pass)
 
 This repo documents the current model:
-- existing Remix user-created API keys
-- bearer auth (`Authorization: Bearer sk_live_...`)
+- API keys created in `https://remix.gg/api-keys`
+- bearer auth (`Authorization: Bearer <api_key>`)
 - ownership checks + lightweight rate limiting
 - no agent REST submit endpoint
+- docs fallback at `https://api.remix.gg/openapi`

@@ -1,13 +1,13 @@
 ---
 name: remix-api-key-auth
-description: Configure and verify API-key authentication for Remix agent publishing workflows.
+description: Configure and verify bearer API key authentication for Remix agent publishing workflows.
 metadata:
   tags: remix, auth, api-key
 ---
 
 # Remix API Key Setup
 
-Use this skill when a user needs to authenticate an external service/agent for Remix publishing APIs.
+Use this skill when a user needs to authenticate an external service/agent for Remix server APIs.
 
 ## Steps
 
@@ -17,10 +17,11 @@ Use this skill when a user needs to authenticate an external service/agent for R
 4. Store it as a secret in your service runtime.
 5. Send:
    - `Authorization: Bearer <api_key>`
+6. Use base URL `https://api.remix.gg`.
 
 ## Verification
 
-Run a cheap authenticated call first (for example, `POST /api/v1/agents/games` in a test project) to verify the key works.
+Run a cheap authenticated call first (for example, `POST /v1/agents/games` in a test project) to verify the key works.
 
 ## Troubleshooting Invalid API Key
 
@@ -28,3 +29,4 @@ Run a cheap authenticated call first (for example, `POST /api/v1/agents/games` i
 - Re-copy the key from `https://remix.gg/api-keys` and rotate if needed.
 - Verify your service is reading the expected secret/env var in the current runtime.
 - Confirm the request is server-side and not exposed through browser code.
+- If behavior seems inconsistent with local docs, use `https://api.remix.gg/openapi` as source of truth.

@@ -10,7 +10,7 @@ Use this file when generating or repairing game code for Remix.
 
 ## Required hooks for v1 agent validation
 
-These checks are required by `GET /api/v1/agents/games/{gameId}/versions/{versionId}/validate`:
+These checks are required by `GET /v1/agents/games/{gameId}/versions/{versionId}/validate`:
 
 - `window.FarcadeSDK.singlePlayer.actions.gameOver({ score })`
 - `window.FarcadeSDK.onPlayAgain(() => { ... })`

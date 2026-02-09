@@ -1,6 +1,6 @@
 ---
 name: remix-agent-publish
-description: Build Remix games for remix.gg with the v1 agents REST API and Farcade game SDK requirements.
+description: Build Remix games for remix.gg with the server-api v1 agents REST API and Farcade game SDK requirements.
 metadata:
   tags: remix, games, api, agent, publishing
 ---
@@ -21,11 +21,12 @@ Use this skill when users want to automate game publishing on Remix (`remix.gg`)
 
 ## Source of truth
 
-When docs and runtime behavior disagree, defer to Farcade source:
+When docs and runtime behavior disagree, defer to the server API source and OpenAPI docs:
 
-- `apps/studio/app/api/v1/agents/games/route.ts`
-- `apps/studio/app/api/v1/agents/games/[gameId]/versions/[versionId]/code/route.ts`
-- `apps/studio/app/api/v1/agents/games/[gameId]/versions/[versionId]/validate/route.ts`
-- `apps/studio/app/api/v1/agents/games/[gameId]/versions/[versionId]/status/route.ts`
-- `apps/studio/lib/agent-api.ts`
+- `https://api.remix.gg/openapi`
+- `https://api.remix.gg/openapi/json`
+- `apps/server-api/src/routes/agents.ts`
+- `apps/server-api/src/lib/api-auth.ts`
+- `apps/server-api/src/lib/agent-api.ts`
+- `apps/server-api/src/index.ts`
 - `packages/game-sdk/src/index.ts`

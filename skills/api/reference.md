@@ -7,12 +7,20 @@ metadata:
 
 ## Transport
 
-Current agent publishing endpoints are exposed as REST routes under `/api/v1/agents`.
+Base URL: `https://api.remix.gg`
+
+Primary agent publishing endpoints are exposed under `/v1/agents`.
+
+Compatibility aliases are also available under `/api/v1/agents`.
+
+If this reference and runtime behavior differ, use OpenAPI as source of truth:
+- `https://api.remix.gg/openapi`
+- `https://api.remix.gg/openapi/json`
 
 Base headers:
 
 ```http
-Authorization: Bearer sk_live_xxx
+Authorization: Bearer <api_key>
 Content-Type: application/json
 ```
 
@@ -32,7 +40,126 @@ Error:
 
 ## Routes
 
-### `POST /api/v1/agents/games`
+### `GET /v1/agents/metadata/categories`
+List supported game category enums.
+
+Output (`200`):
+
+```json
+{
+  "success": true,
+  "data": {
+    "categories": ["ACTION", "ARCADE", "..."]
+  }
+}
+```
+
+### `GET /v1/agents/games`
+List games owned by the authenticated user.
+
+Output (`200`) includes:
+- `id`, `name`, `appImageUrl`, `createdAt`, `updatedAt`
+- `liveVersionId`, `latestVersionId`, `latestVersionCreatedAt`
+- computed `status` for the latest version
+
+### `GET /v1/agents/games/{gameId}`
+Get owned game detail.
+
+Output (`200`) includes:
+- `id`, `name`, `appImageUrl`, timestamps
+- `liveVersionId`, `threadId`, `hasThread`
+- `categories[]`
+
+Errors:
+- `GAME_NOT_FOUND`
+- `FORBIDDEN`
+
+### `GET /v1/agents/games/{gameId}/versions`
+List all versions for an owned game.
+
+Output (`200`) includes:
+- `gameId`, `liveVersionId`
+- `versions[]` with `id`, `title`, timestamps, `feedback`, and computed `status`
+
+Errors:
+- `GAME_NOT_FOUND`
+- `FORBIDDEN`
+
+### `GET /v1/agents/games/{gameId}/versions/{versionId}`
+Get detailed view for an owned version.
+
+Output (`200`) includes:
+- `id`, `gameId`, `title`, timestamps
+- `status`, `feedback`
+- `sdkEventStates`, `passedSdkCheck`
+- `playtestStatus`, `isSafeToPublish`
+- `liveVersionId`
+
+Errors:
+- `VERSION_NOT_FOUND`
+- `FORBIDDEN`
+
+### `GET /v1/agents/games/{gameId}/versions/{versionId}/code`
+Get stored code for an owned version.
+
+Output (`200`):
+
+```json
+{
+  "success": true,
+  "data": {
+    "gameId": "...",
+    "versionId": "...",
+    "code": "<html>...</html>"
+  }
+}
+```
+
+### `GET /v1/agents/games/{gameId}/versions/{versionId}/thread`
+Get thread context for an owned version.
+
+Output (`200`):
+
+```json
+{
+  "success": true,
+  "data": {
+    "gameId": "...",
+    "versionId": "...",
+    "threadId": "thread_xxx",
+    "html": "<html>...</html>"
+  }
+}
+```
+
+Notes:
+- `threadId` may come from version or game-level thread.
+- `html` falls back to thread HTML when version code is empty.
+
+### `GET /v1/agents/games/{gameId}/assets`
+List non-deleted assets for an owned game.
+
+Output (`200`) includes `assets[]` with:
+- `id`, `name`, `url`, `contentType`, timestamps
+
+Errors:
+- `GAME_NOT_FOUND`
+- `FORBIDDEN`
+
+### `GET /v1/agents/games/{gameId}/launch-readiness`
+Get aggregate launch readiness for a game version.
+
+Query:
+- optional `versionId` (when omitted, server uses latest version)
+
+Output (`200`) includes:
+- `gameId`, `versionId`
+- `status`
+- `valid`
+- `blockers[]`
+- `readyForSubmission` (`valid && status === "draft"`)
+
+### `POST /v1/agents/games`
 Create a new game draft and initial version.
 
 Input:
@@ -63,10 +190,9 @@ Output (`201`):
 Constraints:
 - User must be authenticated and not banned/deleted.
 - Enforces in-development game cap (`20`) unless admin.
-- `name` is optional, trimmed, and max `80` chars.
-- If `name` is omitted, server uses `New Game YYYY-MM-DD`.
+- `name` is required and must be `5-25` chars.
 
-### `PUT /api/v1/agents/games/{gameId}/versions/{versionId}/code`
+### `PUT /v1/agents/games/{gameId}/versions/{versionId}/code`
 Update code for an existing version.
 
 Input:
@@ -91,14 +217,14 @@ Output (`200`):
 
 Constraints:
 - Scoped to owner (or admin).
-- Code size must be between `10` and `1_000_000` characters.
+- Code size must be between `1` and `1_000_000` characters.
 - Updates existing version only.
 - Cannot update live version.
 - Cannot update submitted/launched/approved versions.
 - Resets publish fields (`submittedAt`, `approvedAt`, `launchedAt`, `feedback`) and SDK checks after write.
 - Creates a thread when missing and uploads code to agent-builder.
 
-### `GET /api/v1/agents/games/{gameId}/versions/{versionId}/validate`
+### `GET /v1/agents/games/{gameId}/versions/{versionId}/validate`
 Returns machine-readable blockers for readiness checks.
 
 Output (`200`):
@@ -131,7 +257,7 @@ Validation checks currently include:
 - `MISSING_SDK_PLAY_AGAIN`
 - `MISSING_SDK_TOGGLE_MUTE`
 
-### `GET /api/v1/agents/games/{gameId}/versions/{versionId}/status`
+### `GET /v1/agents/games/{gameId}/versions/{versionId}/status`
 Get publishing status for a version.
 
 Output (`200`):
@@ -164,6 +290,7 @@ Status mapping is server-derived:
 - No delete route.
 - No create-version route.
 - No submit route.
+- No write endpoints for game metadata or assets in this surface.
 
 Agent flow is create game + update current version + validate/status.
 
@@ -172,6 +299,7 @@ Agent flow is create game + update current version + validate/status.
 - `UNAUTHORIZED` - Missing/invalid API key.
 - `ACCOUNT_INELIGIBLE` - User is banned/deleted.
 - `FORBIDDEN` - User does not own the game/version.
+- `GAME_NOT_FOUND` - Game missing.
 - `VERSION_NOT_FOUND` - Game/version mismatch or missing.
 - `MAX_IN_DEV_GAMES_EXCEEDED` - Creator reached cap.
 - `VALIDATION_ERROR` - Body/query failed validation.
