@@ -24,10 +24,10 @@ Use this skill when a user wants a 3D browser game with minimal rendering comple
 - Prefer simple `MeshBasicMaterial`/`MeshStandardMaterial` setups.
 - Avoid dynamic shadows on first pass.
 - For Remix uploads, output single-file HTML with inline JS/CSS unless user asks otherwise.
+- For Remix uploads, include `<script src="https://cdn.jsdelivr.net/npm/@farcade/game-sdk@0.3.0/dist/index.min.js"></script>` in HTML `<head>`.
 - Treat 3D as optional style; gameplay clarity is higher priority than visual complexity.
 
 ## References
 
 - `references/threejs-mobile-patterns.md` for scene setup, controls, and perf budgets.
 - `references/remix-farcade-integration.md` for SDK hooks required by Remix validation.
-

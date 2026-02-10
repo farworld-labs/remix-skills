@@ -5,6 +5,8 @@ A version should be considered launch-ready only when all are true:
 - Game code exists
 - Game has name, icon, and >=1 category
 - SDK hooks exist in code:
+  - HTML `<head>` includes:
+    - `<script src="https://cdn.jsdelivr.net/npm/@farcade/game-sdk@0.3.0/dist/index.min.js"></script>`
   - `window.FarcadeSDK.singlePlayer.actions.gameOver(...)`
   - `window.FarcadeSDK.onPlayAgain(...)`
   - `window.FarcadeSDK.onToggleMute(...)`

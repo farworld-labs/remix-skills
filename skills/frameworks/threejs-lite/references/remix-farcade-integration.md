@@ -6,6 +6,8 @@ Use this when Three.js output is intended for Remix/Farcade agent publishing.
 
 Implement all of these:
 
+- Include SDK script in `<head>`:
+  - `<script src="https://cdn.jsdelivr.net/npm/@farcade/game-sdk@0.3.0/dist/index.min.js"></script>`
 - `window.FarcadeSDK.singlePlayer.actions.gameOver({ score })`
 - `window.FarcadeSDK.onPlayAgain(() => resetGame())`
 - `window.FarcadeSDK.onToggleMute(({ isMuted }) => { ... })`

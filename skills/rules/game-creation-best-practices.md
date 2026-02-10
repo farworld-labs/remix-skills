@@ -9,6 +9,10 @@
 
 ## Mandatory Farcade SDK Usage
 
+Include the SDK script in HTML `<head>`:
+
+- `<script src="https://cdn.jsdelivr.net/npm/@farcade/game-sdk@0.3.0/dist/index.min.js"></script>`
+
 Use only the supported SDK APIs:
 
 - `window.FarcadeSDK.singlePlayer.actions.saveGameState({ gameState: {...} })`

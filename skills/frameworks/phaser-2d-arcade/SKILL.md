@@ -25,9 +25,9 @@ Use this skill when a user asks for a Phaser browser game, especially for fast s
 - Avoid expensive per-frame allocations and unnecessary visual effects.
 - Keep gameplay restart-safe and deterministic.
 - For Remix uploads, produce single-file HTML with inline JS/CSS unless user asks otherwise.
+- For Remix uploads, include `<script src="https://cdn.jsdelivr.net/npm/@farcade/game-sdk@0.3.0/dist/index.min.js"></script>` in HTML `<head>`.
 
 ## References
 
 - `references/phaser-arcade-patterns.md` for scene architecture, controls, and perf defaults.
 - `references/remix-farcade-integration.md` for Farcade SDK hooks and integration shape.
-

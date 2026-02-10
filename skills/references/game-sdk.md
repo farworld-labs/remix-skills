@@ -5,6 +5,8 @@ Use this file when generating or repairing game code for Remix.
 ## Runtime model
 
 - In Remix-hosted uploads, the SDK is available as `window.FarcadeSDK`.
+- Include SDK script in the HTML `<head>`:
+  - `<script src="https://cdn.jsdelivr.net/npm/@farcade/game-sdk@0.3.0/dist/index.min.js"></script>`
 - Do not rely on package imports in uploaded single-file game code.
 - Always call `await window.FarcadeSDK.ready()` before reading player/game data.
 

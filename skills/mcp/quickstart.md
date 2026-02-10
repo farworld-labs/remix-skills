@@ -13,7 +13,7 @@ Base URL: `https://api.remix.gg`
 2. Resolve exact methods/paths/schemas from the spec.
 3. `GET /v1/agents/metadata/categories` to fetch valid category enums.
 4. `POST /v1/agents/games`
-5. Build game code against `window.FarcadeSDK` requirements (see `references/game-sdk.md`)
+5. Build game code against `window.FarcadeSDK` requirements, including SDK `<script>` in HTML `<head>` (`https://cdn.jsdelivr.net/npm/@farcade/game-sdk@0.3.0/dist/index.min.js`) (see `references/game-sdk.md`)
 6. Set required metadata:
    - Name: game metadata APIs
    - Category: game metadata APIs (1-3)
