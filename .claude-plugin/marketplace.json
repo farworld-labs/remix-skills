@@ -11,8 +11,8 @@
 	},
 	"plugins": [
 		{
-			"name": "remix-agent-publish",
-			"description": "Remix agent publishing skill (auth, API reference, workflow, snippets)",
+			"name": "remix",
+			"description": "Skills for building and publishing games on Remix",
 			"source": "./",
 			"strict": false,
 			"skills": [
