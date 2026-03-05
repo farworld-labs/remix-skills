@@ -70,7 +70,7 @@ The response returns the hosted URL:
 Use `data.asset.url` as the image URL in the next step.
 
 > For uploading non-image assets (audio, 3D models), see the
-> **upload-game-asset** workflow.
+> `remix-upload-asset` skill.
 
 ### 4. Integrate the URL into the Game
 
