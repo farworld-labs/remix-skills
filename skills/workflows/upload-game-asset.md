@@ -37,7 +37,7 @@ Form fields:
 ```
 
 **Allowed extensions:** `.jpg`, `.jpeg`, `.png`, `.webp`, `.mp3`, `.wav`,
-`.hrd`, `.glb`, `.gltf`, `.mp4`, `.mov`, `.avi`
+`.hdr`, `.glb`, `.gltf`, `.mp4`, `.mov`, `.avi`
 
 **Max file size:** 5 MB
 
