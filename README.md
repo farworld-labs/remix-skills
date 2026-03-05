@@ -16,7 +16,7 @@ npx skills add farworld-labs/remix-skills
 
 | Topic | Description |
 |-------|-------------|
-| [API Reference](skills/api/reference.md) | Endpoint reference for `https://api.remix.gg/v1/agents/*` |
+| [API Reference](skills/api/reference.md) | Endpoint reference for `https://api.remix.gg/v1/games/*` |
 | [API Authentication](skills/api/authentication.md) | Using bearer API keys from Remix account settings |
 | [Auth Setup](skills/auth/SKILL.md) | How to create/use API keys for agents |
 | [Submission Rules](skills/rules/submission-requirements.md) | Validation and publish constraints |
@@ -24,6 +24,20 @@ npx skills add farworld-labs/remix-skills
 | [REST Snippets](skills/snippets/rest-client.md) | Copy-paste client examples |
 | [Phaser 2D Arcade Skill](skills/frameworks/phaser-2d-arcade/SKILL.md) | Companion build skill for Phaser browser games |
 | [Three.js Lite Skill](skills/frameworks/threejs-lite/SKILL.md) | Companion build skill for lightweight 3D browser games |
+
+## Workflows
+
+| Workflow | Description |
+|----------|-------------|
+| [Game Creation](skills/workflows/game-creation.md) | Create a new game draft via the API |
+| [Upload Game](skills/workflows/upload-game.md) | Upload version code to a game |
+| [Add Image](skills/workflows/add-image.md) | Generate and add images to a game |
+| [Add Sprite](skills/workflows/add-sprite-to-game.md) | Generate and add sprites to a game |
+| [Manage Shop Items](skills/workflows/manage-shop-items.md) | Create and manage in-game shop items |
+| [Implement Multiplayer](skills/workflows/implement-multiplayer.md) | Enable multiplayer support for a game |
+| [Integrate Save Game](skills/workflows/integrate-save-game.md) | Add save/load game state functionality |
+| [Open Game](skills/workflows/open-game.md) | Open a game in the browser |
+| [Upload Game Asset](skills/workflows/upload-game-asset.md) | Upload images, audio, 3D models, or video as hosted game assets |
 
 ## API Key Setup
 
@@ -41,7 +55,7 @@ const baseUrl = 'https://api.remix.gg'
 const openApiSpec = await fetch(`${baseUrl}/docs/json`).then((r) => r.json())
 
 // 1) create draft game
-const create = await fetch(`${baseUrl}/v1/agents/games`, {
+const create = await fetch(`${baseUrl}/v1/games`, {
   method: 'POST',
   headers,
   body: JSON.stringify({ name: 'Neon Dash' }),
@@ -51,7 +65,7 @@ const gameId = create.data.game.id
 const versionId = create.data.game.version.id
 
 // 2) update current version code
-await fetch(`${baseUrl}/v1/agents/games/${gameId}/versions/${versionId}/code`, {
+await fetch(`${baseUrl}/v1/games/${gameId}/versions/${versionId}/code`, {
   method: 'POST',
   headers,
   body: JSON.stringify({ code: html }),
@@ -59,12 +73,12 @@ await fetch(`${baseUrl}/v1/agents/games/${gameId}/versions/${versionId}/code`, {
 
 // 3) validate blockers
 const report = await fetch(
-  `${baseUrl}/v1/agents/games/${gameId}/versions/${versionId}/validate`,
+  `${baseUrl}/v1/games/${gameId}/versions/${versionId}/validate`,
   { method: 'GET', headers },
 ).then((r) => r.json())
 
 // 4) check status
-await fetch(`${baseUrl}/v1/agents/games/${gameId}/versions/${versionId}/status`, {
+await fetch(`${baseUrl}/v1/games/${gameId}/versions/${versionId}/status`, {
   method: 'GET',
   headers,
 })
@@ -72,21 +86,20 @@ await fetch(`${baseUrl}/v1/agents/games/${gameId}/versions/${versionId}/status`,
 
 ## Additional Read Endpoints
 
-- `GET /v1/agents/metadata/categories`
-- `GET /v1/agents/games`
-- `GET /v1/agents/games/{gameId}`
-- `GET /v1/agents/games/{gameId}/versions`
-- `GET /v1/agents/games/{gameId}/versions/{versionId}`
-- `GET /v1/agents/games/{gameId}/versions/{versionId}/code`
-- `GET /v1/agents/games/{gameId}/versions/{versionId}/thread`
-- `GET /v1/agents/games/{gameId}/assets`
-- `GET /v1/agents/games/{gameId}/launch-readiness?versionId={versionId}`
+- `GET /v1/metadata/categories`
+- `GET /v1/games`
+- `GET /v1/games/{gameId}`
+- `GET /v1/games/{gameId}/versions`
+- `GET /v1/games/{gameId}/versions/{versionId}`
+- `GET /v1/games/{gameId}/versions/{versionId}/code`
+- `GET /v1/games/{gameId}/versions/{versionId}/thread`
+- `GET /v1/games/{gameId}/assets`
+- `GET /v1/games/{gameId}/items`
+- `GET /v1/games/{gameId}/launch-readiness?versionId={versionId}`
 
-## Asset Uploads (Current)
+## Asset Uploads
 
-- As of February 9, 2026, asset upload is handled through the Remix app/Studio flow.
-- Agent REST currently exposes `GET /v1/agents/games/{gameId}/assets` for read-only asset discovery.
-- Recommended workflow: upload icon/sprites/audio in the app first, then reference returned hosted URLs in game code.
+Asset uploads are available via `POST /v1/games/{gameId}/assets`. You can upload binary files (icons, sprites, audio) directly through the API or through the Remix app/Studio flow.
 
 ## Auth Model (Current Pass)
 

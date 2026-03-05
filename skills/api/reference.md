@@ -46,9 +46,12 @@ Error:
 
 Use OpenAPI for exact paths; these are the stable groups:
 - Metadata: categories
-- Games: list/detail/create
+- Games: list/detail/create/update
 - Versions: list/detail/code/thread/status/validate/code-update
-- Assets: list game assets (read-only discovery for app-uploaded files)
+- Assets: list game assets, upload assets via `POST /v1/games/{gameId}/assets`
+- Images: generate images via `POST /v1/games/{gameId}/images/generate`
+- Sprites: generate sprites via `POST /v1/games/{gameId}/sprites/generate`
+- Items: manage shop items via `GET/POST /v1/games/{gameId}/items`, `POST/DELETE /v1/games/{gameId}/items/{itemId}`
 - Readiness: launch readiness checks
 
 ## Not Exposed in Agent REST
@@ -56,19 +59,19 @@ Use OpenAPI for exact paths; these are the stable groups:
 - No delete route.
 - No create-version route.
 - No submit route.
-- No write endpoints for game metadata or assets in this surface.
 
-## Asset Upload State (As of February 9, 2026)
+## Asset Upload
 
-- Binary asset uploads (including icon/image/audio files) are handled in the Remix app/Studio upload flow.
-- Agent REST currently exposes asset discovery via `GET /v1/agents/games/{gameId}/assets` only.
-- Recommended pattern: upload assets in the app first, then reference hosted asset URLs from the assets list in your HTML game code.
+Asset uploads are available via `POST /v1/games/{gameId}/assets`. You can upload binary files (icons, sprites, audio) directly through the API.
+
+Assets can also be managed through the Remix app/Studio upload flow.
 
 Canonical flow:
 1. create game
 2. upload/update version code
-3. validate and/or launch-readiness
-4. check status
+3. upload assets as needed via `POST /v1/games/{gameId}/assets`
+4. validate and/or launch-readiness
+5. check status
 
 ## Common Error Codes
 

@@ -7,28 +7,28 @@
 - Do not use landscape layouts or controls.
 - Design for thumb-friendly interactions and readable UI.
 
-## Mandatory Farcade SDK Usage
+## Mandatory Remix SDK Usage
 
 Include the SDK script in HTML `<head>`:
 
-- `<script src="https://cdn.jsdelivr.net/npm/@farcade/game-sdk@0.3.0/dist/index.min.js"></script>`
+- `<script src="https://cdn.jsdelivr.net/npm/@remix-gg/sdk@latest/dist/index.min.js"></script>`
 
 Use only the supported SDK APIs:
 
-- `window.FarcadeSDK.singlePlayer.actions.saveGameState({ gameState: {...} })`
-- `window.FarcadeSDK.singlePlayer.actions.gameOver({ score: number })`
-- `window.FarcadeSDK.onPlayAgain(() => { ... })`
-- `window.FarcadeSDK.onToggleMute((data) => { ... })`
-- `window.FarcadeSDK.ready()`
-- `window.FarcadeSDK.gameState`
-- `window.FarcadeSDK.hapticFeedback()`
+- `window.RemixSDK.singlePlayer.actions.saveGameState({ gameState: {...} })`
+- `window.RemixSDK.singlePlayer.actions.gameOver({ score: number })`
+- `window.RemixSDK.onPlayAgain(() => { ... })`
+- `window.RemixSDK.onToggleMute((data) => { ... })`
+- `window.RemixSDK.ready()`
+- `window.RemixSDK.gameState`
+- `window.RemixSDK.hapticFeedback()`
 
 ## Forbidden APIs and Patterns
 
 - Do not use `localStorage`.
 - Do not use `sessionStorage`.
 - Do not use `navigator.vibrate(...)`.
-- Do not use `window.FarcadeSDK.vibrate(...)`.
+- Do not use `window.RemixSDK.vibrate(...)`.
 - Do not use non-existent SDK methods (`save`, `checkpoint`, etc.).
 
 ## Game Over and Restart Flow
@@ -36,21 +36,21 @@ Use only the supported SDK APIs:
 - End runs only with:
 
 ```javascript
-window.FarcadeSDK.singlePlayer.actions.gameOver({ score: finalScore })
+window.RemixSDK.singlePlayer.actions.gameOver({ score: finalScore })
 ```
 
 - Do not implement a custom game-over screen.
-- Handle replay via `window.FarcadeSDK.onPlayAgain(...)`.
+- Handle replay via `window.RemixSDK.onPlayAgain(...)`.
 
 ## State Persistence
 
 - Persist progress only with `saveGameState`.
-- Read persisted values from `window.FarcadeSDK.gameState` after `await window.FarcadeSDK.ready()`.
+- Read persisted values from `window.RemixSDK.gameState` after `await window.RemixSDK.ready()`.
 - Keep saved state compact and serializable.
 
 ## Haptics and Audio
 
-- Use `window.FarcadeSDK.hapticFeedback()` for collisions, scoring, UI interactions, and game over.
+- Use `window.RemixSDK.hapticFeedback()` for collisions, scoring, UI interactions, and game over.
 - Respect `onToggleMute` state for all game audio.
 - Use lightweight Web Audio API SFX for better mobile performance.
 

@@ -1,50 +1,56 @@
-# Farcade Game SDK Reference (`@farcade/game-sdk`)
+# Remix Game SDK Reference (`@remix-gg/sdk`)
 
 Use this file when generating or repairing game code for Remix.
 
 ## Runtime model
 
-- In Remix-hosted uploads, the SDK is available as `window.FarcadeSDK`.
+- In Remix-hosted uploads, the SDK is available as `window.RemixSDK`.
 - Include SDK script in the HTML `<head>`:
-  - `<script src="https://cdn.jsdelivr.net/npm/@farcade/game-sdk@0.3.0/dist/index.min.js"></script>`
+  - `<script src="https://cdn.jsdelivr.net/npm/@remix-gg/sdk@latest/dist/index.min.js"></script>`
 - Do not rely on package imports in uploaded single-file game code.
-- Always call `await window.FarcadeSDK.ready()` before reading player/game data.
+- Always call `await window.RemixSDK.ready()` before reading player/game data.
 
 ## Required hooks for v1 agent validation
 
-These checks are required by `GET /v1/agents/games/{gameId}/versions/{versionId}/validate`:
+These checks are required by `GET /v1/games/{gameId}/versions/{versionId}/validate`:
 
-- `window.FarcadeSDK.singlePlayer.actions.gameOver({ score })`
-- `window.FarcadeSDK.onPlayAgain(() => { ... })`
-- `window.FarcadeSDK.onToggleMute(({ isMuted }) => { ... })`
+- `window.RemixSDK.singlePlayer.actions.gameOver({ score })`
+- `window.RemixSDK.onPlayAgain(() => { ... })`
+- `window.RemixSDK.onToggleMute(({ isMuted }) => { ... })`
 
 ## Commonly used SDK surface
 
 Properties/getters:
 
-- `window.FarcadeSDK.player`
-- `window.FarcadeSDK.players`
-- `window.FarcadeSDK.gameState`
-- `window.FarcadeSDK.gameInfo`
-- `window.FarcadeSDK.purchasedItems`
-- `window.FarcadeSDK.isReady`
-- `window.FarcadeSDK.hasItem(itemId)`
+- `window.RemixSDK.player`
+- `window.RemixSDK.players`
+- `window.RemixSDK.gameState`
+- `window.RemixSDK.gameInfo`
+- `window.RemixSDK.purchasedItems`
+- `window.RemixSDK.isReady`
+- `window.RemixSDK.hasItem(itemId)`
+- `window.RemixSDK.getItemPurchaseCount(itemId)`
 
 Single-player actions:
 
-- `window.FarcadeSDK.singlePlayer.actions.gameOver({ score })`
-- `window.FarcadeSDK.singlePlayer.actions.saveGameState({ gameState })`
-- `window.FarcadeSDK.singlePlayer.actions.purchase({ item })`
-- `window.FarcadeSDK.singlePlayer.actions.reportError({ message, ... })`
-- `window.FarcadeSDK.hapticFeedback()`
+- `window.RemixSDK.singlePlayer.actions.gameOver({ score })`
+- `window.RemixSDK.singlePlayer.actions.saveGameState({ gameState })`
+- `window.RemixSDK.singlePlayer.actions.purchase({ item })`
+- `window.RemixSDK.singlePlayer.actions.reportError({ message, ... })`
+- `window.RemixSDK.hapticFeedback()`
 
-Multiplayer actions/events also exist (`multiplayer.actions.*`, `onGameStateUpdated`), but are optional for basic single-player games.
+Multiplayer actions:
+
+- `window.RemixSDK.multiplayer.actions.gameOver({ scores })`
+- `window.RemixSDK.onGameStateUpdated(callback)`
+
+Multiplayer actions/events are optional for basic single-player games.
 
 ## Minimal integration template
 
 ```javascript
 async function initGame() {
-  const sdk = window.FarcadeSDK
+  const sdk = window.RemixSDK
   await sdk.ready()
 
   let muted = true

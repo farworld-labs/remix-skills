@@ -1,6 +1,6 @@
 ---
 name: threejs-lite
-description: Build lightweight mobile-friendly 3D browser games with Three.js, optimized for Remix/Farcade constraints and single-file delivery.
+description: Build lightweight mobile-friendly 3D browser games with Three.js, optimized for Remix constraints and single-file delivery.
 metadata:
   tags: threejs, webgl, game-dev, 3d, remix
 ---
@@ -15,7 +15,7 @@ Use this skill when a user wants a 3D browser game with minimal rendering comple
 2. Implement one camera, one scene, one gameplay loop.
 3. Add player input and terminal condition before adding visual polish.
 4. Keep geometry/material count small and predictable.
-5. If targeting Remix/Farcade, apply hooks in `references/remix-farcade-integration.md`.
+5. If targeting Remix, apply hooks in `references/remix-farcade-integration.md`.
 6. Validate required hooks (`gameOver`, `onPlayAgain`, `onToggleMute`) before handoff.
 
 ## Guardrails
@@ -24,7 +24,7 @@ Use this skill when a user wants a 3D browser game with minimal rendering comple
 - Prefer simple `MeshBasicMaterial`/`MeshStandardMaterial` setups.
 - Avoid dynamic shadows on first pass.
 - For Remix uploads, output single-file HTML with inline JS/CSS unless user asks otherwise.
-- For Remix uploads, include `<script src="https://cdn.jsdelivr.net/npm/@farcade/game-sdk@0.3.0/dist/index.min.js"></script>` in HTML `<head>`.
+- For Remix uploads, include `<script src="https://cdn.jsdelivr.net/npm/@remix-gg/sdk@latest/dist/index.min.js"></script>` in HTML `<head>`.
 - Treat 3D as optional style; gameplay clarity is higher priority than visual complexity.
 
 ## References

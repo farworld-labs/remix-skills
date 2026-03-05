@@ -1,6 +1,6 @@
 ---
 name: remix-agent-publish
-description: Build Remix games for remix.gg with the server-api v1 agents REST API and Farcade game SDK requirements.
+description: Build Remix games for remix.gg with the server-api v1 REST API and Remix Game SDK requirements.
 metadata:
   tags: remix, games, api, agent, publishing
 ---
@@ -22,6 +22,36 @@ Use this skill when users want to automate game publishing on Remix (`remix.gg`)
 - Use [REST Snippets](snippets/rest-client.md) for client integration examples.
 - Use [MCP Quickstart](mcp/quickstart.md) for assistant workflows.
 
+## Available Workflows
+
+- [Game Creation](workflows/game-creation.md) - Create a new game draft
+- [Upload Game](workflows/upload-game.md) - Upload version code
+- [Add Image](workflows/add-image.md) - Generate and add images to a game
+- [Add Sprite](workflows/add-sprite-to-game.md) - Generate and add sprites to a game
+- [Manage Shop Items](workflows/manage-shop-items.md) - Create and manage in-game shop items
+- [Implement Multiplayer](workflows/implement-multiplayer.md) - Enable multiplayer support
+- [Integrate Save Game](workflows/integrate-save-game.md) - Add save/load game state
+- [Upload Game Asset](workflows/upload-game-asset.md) - Upload images, audio, 3D models, or video as hosted game assets
+
+## Game Settings
+
+Games can include a `.remix-settings.json` file for configuration. See workflow files for details on when and how to use game settings.
+
+## Inline Validation
+
+Before uploading code, run through the validation checklist in [Submission Rules](rules/submission-requirements.md) to catch blockers early.
+
+## REST API Workflow
+
+All game management is done through REST API calls to `https://api.remix.gg`. The general pattern is:
+
+1. Fetch the OpenAPI spec at `https://api.remix.gg/docs/json`
+2. Use the spec to determine exact methods, paths, and schemas
+3. Make authenticated REST calls with your API key
+4. Check responses for success/error envelopes
+
+See [REST Snippets](snippets/rest-client.md) and [API Reference](api/reference.md) for details.
+
 ## Source of truth
 
 When docs and runtime behavior disagree, defer to the server API source and OpenAPI docs:
@@ -32,4 +62,4 @@ When docs and runtime behavior disagree, defer to the server API source and Open
 - `apps/server-api/lib/api-auth.ts`
 - `apps/server-api/lib/agent-api.ts`
 - `apps/server-api/app/[...path]/route.ts`
-- `packages/game-sdk/src/index.ts`
+- `@remix-gg/sdk` (NPM package)
