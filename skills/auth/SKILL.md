@@ -21,7 +21,7 @@ Use this skill when a user needs to authenticate an external service/agent for R
 
 ## Verification
 
-Run a cheap authenticated call first (for example, `POST /v1/agents/games` in a test project) to verify the key works.
+Run a cheap authenticated call first (for example, `POST /v1/games` in a test project) to verify the key works.
 
 ## Troubleshooting Invalid API Key
 
