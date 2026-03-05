@@ -15,7 +15,7 @@ Use this skill when a user wants a 3D browser game with minimal rendering comple
 2. Implement one camera, one scene, one gameplay loop.
 3. Add player input and terminal condition before adding visual polish.
 4. Keep geometry/material count small and predictable.
-5. If targeting Remix, apply hooks in `references/remix-farcade-integration.md`.
+5. If targeting Remix, apply hooks in `references/sdk-integration.md`.
 6. Validate required hooks (`gameOver`, `onPlayAgain`, `onToggleMute`) before handoff.
 
 ## Guardrails
@@ -30,4 +30,4 @@ Use this skill when a user wants a 3D browser game with minimal rendering comple
 ## References
 
 - `references/threejs-mobile-patterns.md` for scene setup, controls, and perf budgets.
-- `references/remix-farcade-integration.md` for SDK hooks required by Remix validation.
+- `references/sdk-integration.md` for SDK hooks required by Remix validation.

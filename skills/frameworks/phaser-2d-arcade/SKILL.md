@@ -15,7 +15,7 @@ Use this skill when a user asks for a Phaser browser game, especially for fast s
 2. Implement core loop first: `boot -> preload -> create -> update`.
 3. Add win/lose condition and scoring before polish.
 4. Add touch controls and responsive layout early (mobile-first).
-5. If targeting Remix, apply SDK hooks from `references/remix-farcade-integration.md`.
+5. If targeting Remix, apply SDK hooks from `references/sdk-integration.md`.
 6. Validate required hooks (`gameOver`, `onPlayAgain`, `onToggleMute`) before handoff.
 
 ## Guardrails
@@ -30,4 +30,4 @@ Use this skill when a user asks for a Phaser browser game, especially for fast s
 ## References
 
 - `references/phaser-arcade-patterns.md` for scene architecture, controls, and perf defaults.
-- `references/remix-farcade-integration.md` for Remix SDK hooks and integration shape.
+- `references/sdk-integration.md` for Remix SDK hooks and integration shape.
