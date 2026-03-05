@@ -12,32 +12,30 @@ Best practices, references, and templates for building games on Remix via API-dr
 npx skills add farworld-labs/remix-skills
 ```
 
-## Skill Contents
+## Skills
 
-| Topic | Description |
+| Skill | Description |
 |-------|-------------|
-| [API Reference](skills/api/reference.md) | Endpoint reference for `https://api.remix.gg/v1/games/*` |
-| [API Authentication](skills/api/authentication.md) | Using bearer API keys from Remix account settings |
-| [Auth Setup](skills/auth/SKILL.md) | How to create/use API keys for agents |
-| [Submission Rules](skills/rules/submission-requirements.md) | Validation and publish constraints |
-| [MCP Quickstart](skills/mcp/quickstart.md) | Suggested tool workflow for assistants |
-| [REST Snippets](skills/snippets/rest-client.md) | Copy-paste client examples |
-| [Phaser 2D Arcade Skill](skills/frameworks/phaser-2d-arcade/SKILL.md) | Companion build skill for Phaser browser games |
-| [Three.js Lite Skill](skills/frameworks/threejs-lite/SKILL.md) | Companion build skill for lightweight 3D browser games |
-
-## Workflows
-
-| Workflow | Description |
-|----------|-------------|
-| [Game Creation](skills/workflows/game-creation.md) | Create a new game draft via the API |
-| [Upload Game](skills/workflows/upload-game.md) | Upload version code to a game |
-| [Add Image](skills/workflows/add-image.md) | Generate and add images to a game |
-| [Add Sprite](skills/workflows/add-sprite-to-game.md) | Generate and add sprites to a game |
-| [Manage Shop Items](skills/workflows/manage-shop-items.md) | Create and manage in-game shop items |
-| [Implement Multiplayer](skills/workflows/implement-multiplayer.md) | Enable multiplayer support for a game |
-| [Integrate Save Game](skills/workflows/integrate-save-game.md) | Add save/load game state functionality |
-| [Open Game](skills/workflows/open-game.md) | Open a game in the browser |
-| [Upload Game Asset](skills/workflows/upload-game-asset.md) | Upload images, audio, 3D models, or video as hosted game assets |
+| [remix-agent-publish](skills/remix-agent-publish/SKILL.md) | Build and publish Remix games via the v1 REST API and Remix Game SDK |
+| [remix-api-auth](skills/remix-api-auth/SKILL.md) | Configure and verify bearer API key authentication for Remix APIs |
+| [remix-api-reference](skills/remix-api-reference/SKILL.md) | OpenAPI-first endpoint reference for Remix game publishing REST routes |
+| [remix-glossary](skills/remix-glossary/SKILL.md) | Glossary of terms used in Remix agent publishing flows |
+| [remix-mcp-quickstart](skills/remix-mcp-quickstart/SKILL.md) | Quickstart workflow for AI assistants using Remix publishing APIs |
+| [remix-rest-snippets](skills/remix-rest-snippets/SKILL.md) | REST client snippets for Remix agent publishing |
+| [remix-game-sdk](skills/remix-game-sdk/SKILL.md) | Reference for the @remix-gg/sdk game integration hooks and APIs |
+| [remix-submission-rules](skills/remix-submission-rules/SKILL.md) | Validation and publish constraints for Remix game submissions |
+| [remix-game-best-practices](skills/remix-game-best-practices/SKILL.md) | Mobile-first game creation best practices for Remix |
+| [remix-open-game](skills/remix-open-game/SKILL.md) | Open a game in the Remix Studio browser for preview and editing |
+| [remix-game-creation](skills/remix-game-creation/SKILL.md) | Create a new game draft via the Remix API |
+| [remix-upload-game](skills/remix-upload-game/SKILL.md) | Upload version code to a Remix game |
+| [remix-add-image](skills/remix-add-image/SKILL.md) | Generate and add images to a Remix game |
+| [remix-add-sprite](skills/remix-add-sprite/SKILL.md) | Generate and add sprites to a Remix game |
+| [remix-multiplayer](skills/remix-multiplayer/SKILL.md) | Enable multiplayer support for a Remix game |
+| [remix-save-game](skills/remix-save-game/SKILL.md) | Add save and load game state functionality via RemixSDK |
+| [remix-shop-items](skills/remix-shop-items/SKILL.md) | Create and manage in-game shop items for a Remix game |
+| [remix-upload-asset](skills/remix-upload-asset/SKILL.md) | Upload images, audio, or 3D models as hosted game assets |
+| [phaser-2d-arcade](skills/phaser-2d-arcade/SKILL.md) | Build mobile-first 2D browser games with Phaser 3 Arcade Physics |
+| [threejs-lite](skills/threejs-lite/SKILL.md) | Build lightweight mobile-friendly 3D browser games with Three.js |
 
 ## API Key Setup
 

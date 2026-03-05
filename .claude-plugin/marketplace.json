@@ -15,7 +15,28 @@
 			"description": "Remix agent publishing skill (auth, API reference, workflow, snippets)",
 			"source": "./",
 			"strict": false,
-			"skills": ["./skills"]
+			"skills": [
+				"./skills/remix-agent-publish",
+				"./skills/remix-api-auth",
+				"./skills/remix-api-reference",
+				"./skills/remix-glossary",
+				"./skills/remix-mcp-quickstart",
+				"./skills/remix-rest-snippets",
+				"./skills/remix-game-sdk",
+				"./skills/remix-submission-rules",
+				"./skills/remix-game-best-practices",
+				"./skills/remix-open-game",
+				"./skills/remix-game-creation",
+				"./skills/remix-upload-game",
+				"./skills/remix-add-image",
+				"./skills/remix-add-sprite",
+				"./skills/remix-multiplayer",
+				"./skills/remix-save-game",
+				"./skills/remix-shop-items",
+				"./skills/remix-upload-asset",
+				"./skills/phaser-2d-arcade",
+				"./skills/threejs-lite"
+			]
 		}
 	]
 }
