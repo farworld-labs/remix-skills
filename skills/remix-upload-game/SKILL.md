@@ -1,6 +1,6 @@
 ---
 name: remix-upload-game
-description: Upload version code to a Remix game
+description: Upload and validate HTML game code for Remix. Use when creating or updating a draft version through the CLI, MCP tools, or direct REST calls.
 ---
 
 # Upload Game Workflow
@@ -12,8 +12,11 @@ platform. It covers creating the game entry (if needed) and uploading the code.
 
 ## Prerequisites
 
-- The `REMIX_API_KEY` environment variable must be set.
 - A completed HTML game file, ready for upload.
+- Prefer the official CLI for terminal workflows:
+  - `remix login`
+  - `remix games create --name "..."`
+  - `remix games versions code update --code-path ./game.html`
 
 ## Steps
 
@@ -44,7 +47,15 @@ First, check for a `.remix-settings.json` file in the project root. If it
 exists and contains `gameId` and `versionId`, skip creation and proceed to
 step 4.
 
-If no settings file exists (or it lacks these IDs), create the game via REST:
+If no settings file exists (or it lacks these IDs), create the game via CLI or REST.
+
+CLI:
+
+```bash
+remix games create --name "My Game"
+```
+
+REST:
 
 ```
 POST https://api.remix.gg/v1/games
@@ -71,6 +82,14 @@ After creation succeeds, write the returned IDs to `.remix-settings.json`:
 Read `gameId` and `versionId` from `.remix-settings.json` (or use the values
 just obtained from creation).
 
+Preferred CLI path:
+
+```bash
+remix games versions code update --code-path ./game.html
+remix games versions validate get
+remix games launch-readiness get
+```
+
 **Read the HTML file** and pass its content as the `code` field in the request body:
 
 ```
@@ -87,4 +106,5 @@ The response returns a confirmation with the game ID, version ID, and thread ID.
 
 - Always validate before uploading to catch issues early.
 - You can re-upload code to the same version as many times as needed.
-- If you need a fresh version, create a new game entry.
+- `remix games versions status get` and `remix games versions thread get` are useful post-upload inspection commands.
+- If you need a fresh draft, create a new game entry rather than inventing a version-create route.

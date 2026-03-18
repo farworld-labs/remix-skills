@@ -1,0 +1,4 @@
+interface:
+  display_name: "Remix CLI"
+  short_description: "Use the official Remix CLI for auth and game ops"
+  default_prompt: "Use $remix-cli to authenticate with Remix, inspect config, and manage a game from the command line."

@@ -1,16 +1,18 @@
 ---
 name: remix-agent-publish
-description: Build and publish Remix games via the v1 REST API and Remix Game SDK
+description: Build and publish Remix games with the current Remix toolchain. Use when work touches the official Remix CLI, MCP server, REST publishing APIs, or the @remix-gg/sdk game runtime.
 metadata:
   tags: remix, games, api, agent, publishing
 ---
 
 ## When to use
 
-Use this skill when users want to automate game publishing on Remix (`remix.gg`) from AI agents or external services.
+Use this skill when users want to create, upload, validate, or inspect Remix games from an agent, terminal workflow, or external service.
 
 ## How to use
 
+- Prefer the `remix-cli` skill for terminal-based auth, config, upload, and analytics flows.
+- Use the `remix-mcp-quickstart` skill when the user is working through an MCP client.
 - Read the `remix-api-auth` skill for authentication setup.
 - Fetch OpenAPI spec at `https://api.remix.gg/docs/json` before generating API calls.
 - Use the `remix-api-reference` skill for workflow guardrails (not as the method/path source of truth).
@@ -35,7 +37,13 @@ Use this skill when users want to automate game publishing on Remix (`remix.gg`)
 
 ## Game Settings
 
-Games can include a `.remix-settings.json` file for configuration. See workflow files for details on when and how to use game settings.
+Current config files:
+
+- `.remix-cli.json` for project-local CLI config (`gameId`, `versionId`)
+- `.remix-settings.json` for MCP workflows and project handoff between MCP tool calls
+- `~/.config/remix/credentials.json` for CLI credentials that MCP can also reuse
+
+Read whichever file matches the workflow you are using instead of inventing IDs.
 
 ## Inline Validation
 

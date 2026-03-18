@@ -1,47 +1,81 @@
 ---
 name: remix-mcp-quickstart
-description: Quickstart workflow for AI assistants using Remix publishing APIs
+description: Quickstart for the official Remix MCP server. Use when configuring or operating `@remix-gg/mcp`, wiring MCP auth, or choosing the right Remix MCP tools and skill resources.
 metadata:
   tags: remix, mcp, quickstart
 ---
 
+## Install And Auth
+
+Install the human-facing CLI if you want browser auth and reusable credentials:
+
+```bash
+curl -fsSL https://remix.gg/install.sh | bash
+remix login
+remix whoami
+```
+
+Then configure MCP:
+
+```bash
+claude mcp add remix-mcp -- npx -y @remix-gg/mcp
+```
+
+The MCP server reads auth from:
+
+1. `REMIX_API_KEY`
+2. saved CLI credentials in `~/.config/remix/credentials.json`
+
+## Project Settings
+
+MCP tool flows persist `gameId` and `versionId` in `.remix-settings.json`.
+
+Before calling `createGame`, read this file. If IDs already exist, reuse them instead of creating a duplicate game.
+
+## Core Tool Set
+
+- `createGame`
+- `updateGame`
+- `uploadVersion`
+- `generateImage`
+- `generateShopImage`
+- `uploadGameAsset`
+- `generateSpriteSheet`
+- `listShopItems`
+- `createShopItem`
+- `updateShopItem`
+- `deleteShopItem`
+
+## Skill Resources
+
+The server exposes skill resources under `skills://...`:
+
+- `skills://overview`
+- `skills://game-creation`
+- `skills://upload-game`
+- `skills://implement-multiplayer`
+- `skills://integrate-save-game`
+- `skills://add-image-to-game`
+- `skills://manage-shop-items`
+- `skills://add-sprite-to-game`
+- `skills://migrate-mobile-fullscreen`
+- `skills://open-game`
+
+Load the matching skill resource before taking multi-step actions.
+
 ## Recommended Flow
 
-Base URL: `https://api.remix.gg`
-
-1. Fetch OpenAPI JSON from `https://api.remix.gg/docs/json`.
-2. Resolve exact methods/paths/schemas from the spec.
-3. `GET /v1/metadata/categories` to fetch valid category enums.
-4. `POST /v1/games`
-5. Build game code against `window.RemixSDK` requirements, including SDK `<script>` in HTML `<head>` (`https://cdn.jsdelivr.net/npm/@remix-gg/sdk@latest/dist/index.min.js`) (see the `remix-game-sdk` skill)
-6. Set required metadata:
-   - Name: game metadata APIs
-   - Category: game metadata APIs (1-3)
-   - Icon: upload via `POST /v1/games/{gameId}/assets` or in Remix Studio/app flow
-7. Upload binary assets (icon/sprites/audio) via `POST /v1/games/{gameId}/assets` or in Remix Studio/app flow.
-8. `GET /v1/games/{gameId}/assets` to confirm hosted asset URLs.
-9. `POST /v1/games/{gameId}/versions/{versionId}/code`
-10. `GET /v1/games/{gameId}/versions/{versionId}/validate`
-11. Optional: `GET /v1/games/{gameId}/launch-readiness?versionId={versionId}`
-12. If blockers exist, patch code/metadata and repeat validation
-13. `GET /v1/games/{gameId}/versions/{versionId}/status`
-
-## Discovery / Inspection Endpoints
-
-- `GET /v1/games`
-- `GET /v1/games/{gameId}`
-- `GET /v1/games/{gameId}/versions`
-- `GET /v1/games/{gameId}/versions/{versionId}`
-- `GET /v1/games/{gameId}/versions/{versionId}/code`
-- `GET /v1/games/{gameId}/versions/{versionId}/thread`
-- `GET /v1/games/{gameId}/assets`
-- `GET /v1/games/{gameId}/items`
+1. Read `.remix-settings.json`.
+2. If no IDs exist, call `createGame`.
+3. Build or repair the game against `window.RemixSDK` requirements.
+4. Upload assets with `uploadGameAsset`, `generateImage`, `generateShopImage`, or `generateSpriteSheet` as needed.
+5. Upload code with `uploadVersion`.
+6. If the task involves monetization, run `listShopItems` before creating or updating items.
+7. Use the matching workflow resource for detailed rules before continuing.
 
 ## Guardrails
 
-- Never skip validation checks.
-- Treat `blockers[]` as source of truth.
-- Do not trust cached path/method memory when OpenAPI is available.
-- Do not create extra versions from agent REST.
-- Do not submit from agent REST.
-- If docs are stale, check `https://api.remix.gg/docs`.
+- Do not call `createGame` when `.remix-settings.json` already has IDs.
+- Do not read the HTML or asset file yourself before calling file-path-based MCP tools.
+- Use CLI login or `REMIX_API_KEY`; do not invent a separate MCP-only auth scheme.
+- If package docs disagree, prefer the current package source in `packages/mcp/src`.

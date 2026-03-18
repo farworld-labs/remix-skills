@@ -47,9 +47,11 @@ Error:
 Use OpenAPI for exact paths; these are the stable groups:
 - Metadata: categories
 - Games: list/detail/create/update
+- Analytics: overview and shop analytics for owned games
 - Versions: list/detail/code/thread/status/validate/code-update
 - Assets: list game assets, upload assets via `POST /v1/games/{gameId}/assets`
 - Images: generate images via `POST /v1/games/{gameId}/images/generate`
+- Shop images: generate shop icon art via `POST /v1/games/{gameId}/images/generate-shop-icon`
 - Sprites: generate sprites via `POST /v1/games/{gameId}/sprites/generate`
 - Items: manage shop items via `GET/POST /v1/games/{gameId}/items`, `POST/DELETE /v1/games/{gameId}/items/{itemId}`
 - Readiness: launch readiness checks
@@ -70,6 +72,7 @@ Canonical flow:
 1. create game
 2. upload/update version code
 3. upload assets as needed via `POST /v1/games/{gameId}/assets`
+4. optionally inspect analytics via the overview/shop endpoints
 4. validate and/or launch-readiness
 5. check status
 
