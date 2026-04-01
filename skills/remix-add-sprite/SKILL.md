@@ -21,10 +21,10 @@ on the Remix platform.
 
 ### 1. Check for Existing Game ID
 
-Read `.remix-settings.json` in the current directory. If it exists and contains
-a `gameId`, use that value.
+Read task context first, then `.remix-cli.json`, then legacy `.remix-mcp.json`.
+If one of those sources contains a `gameId`, use that value.
 
-Only if `.remix-settings.json` does not exist or has no `gameId` should you
+Only if none of those sources contains a `gameId` should you
 follow the **upload-game** workflow to create one.
 
 ### 2. Generate the Sprite Sheet

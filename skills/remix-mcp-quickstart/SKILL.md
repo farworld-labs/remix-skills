@@ -28,9 +28,13 @@ The MCP server reads auth from:
 
 ## Project Settings
 
-MCP tool flows persist `gameId` and `versionId` in `.remix-settings.json`.
+The MCP server does not persist IDs for you. Reuse IDs from:
 
-Before calling `createGame`, read this file. If IDs already exist, reuse them instead of creating a duplicate game.
+1. task context or prior tool results
+2. nearest `.remix-cli.json`
+3. legacy `.remix-mcp.json`
+
+Before calling `createGame`, check those sources first. If IDs already exist, reuse them instead of creating a duplicate game. If the workflow needs IDs to persist across sessions, write `gameId` and `versionId` into `.remix-cli.json`.
 
 ## Core Tool Set
 
@@ -65,7 +69,7 @@ Load the matching skill resource before taking multi-step actions.
 
 ## Recommended Flow
 
-1. Read `.remix-settings.json`.
+1. Read task context first, then `.remix-cli.json`, then legacy `.remix-mcp.json`.
 2. If no IDs exist, call `createGame`.
 3. Build or repair the game against `window.RemixSDK` requirements.
 4. Upload assets with `uploadGameAsset`, `generateImage`, `generateShopImage`, or `generateSpriteSheet` as needed.
@@ -75,7 +79,8 @@ Load the matching skill resource before taking multi-step actions.
 
 ## Guardrails
 
-- Do not call `createGame` when `.remix-settings.json` already has IDs.
+- Do not call `createGame` when task context, `.remix-cli.json`, or legacy `.remix-mcp.json` already has IDs.
 - Do not read the HTML or asset file yourself before calling file-path-based MCP tools.
 - Use CLI login or `REMIX_API_KEY`; do not invent a separate MCP-only auth scheme.
+- Use `REMIX_API_BASE_URL` only when overriding the MCP server API base URL.
 - If package docs disagree, prefer the current package source in `packages/mcp/src`.

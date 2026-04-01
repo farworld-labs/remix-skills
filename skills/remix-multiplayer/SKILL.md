@@ -12,8 +12,8 @@ for games on the Remix platform.
 
 ## Prerequisites
 
-- A game must be created on the Remix platform (you need a game ID).
-- The `REMIX_API_KEY` environment variable must be set.
+- A game must already exist on the Remix platform.
+- MCP or CLI auth should already be available through `REMIX_API_KEY` or saved CLI credentials from `remix login`.
 - The game must include the RemixSDK script tag:
   ```html
   <script src="https://cdn.jsdelivr.net/npm/@remix-gg/sdk@latest/dist/index.min.js"></script>
@@ -23,23 +23,14 @@ for games on the Remix platform.
 
 ### 1. Check for Existing Game ID
 
-Read `.remix-settings.json` in the current directory. If it exists and contains
-a `gameId`, use that value.
+Read task context first, then `.remix-cli.json`, then legacy `.remix-mcp.json`. If one of those sources contains a `gameId`, use that value.
 
-Only if `.remix-settings.json` does not exist or has no `gameId` should you
+Only if none of those sources contains a `gameId` should you
 follow the **upload-game** workflow to create one.
 
 ### 2. Enable Multiplayer
 
-Enable multiplayer for the game via REST:
-
-```
-POST https://api.remix.gg/v1/games/{gameId}
-Authorization: Bearer $REMIX_API_KEY
-Content-Type: application/json
-
-{ "isMultiplayer": true }
-```
+The multiplayer flag is currently enabled by Remix staff after review, not by a public creator API or `updateGame` call. Do not invent an `isMultiplayer` update route in local docs or generated code.
 
 ### 3. Integrate Multiplayer in Game Code
 
@@ -47,26 +38,34 @@ Content-Type: application/json
 const sdk = window.RemixSDK
 await sdk.ready()
 
-// Access all players in the session
-const players = sdk.players // Array of player objects
+const player = sdk.player
+const players = sdk.players
+const opponent = players.find((entry) => entry.id !== player.id)
 
 // Listen for game state updates from other players
-sdk.onGameStateUpdated((state) => {
-  // Sync game state from other players
+sdk.onGameStateUpdated((data) => {
+  if (!data) return
+  // Sync gameState from the other player
 })
 
-// Send game state to other players
-sdk.multiplayer.actions.gameOver({ scores: playerScores })
+// Send updated turn state to the opponent
+sdk.multiplayer.actions.saveGameState({
+  gameState: { /* board state */ },
+  alertUserIds: [opponent.id],
+})
 ```
 
 ### Important: Use Multiplayer gameOver
 
 For multiplayer games, use `multiplayer.actions.gameOver` -- NOT
-`singlePlayer.actions.gameOver`. Pass a scores object keyed by player ID:
+`singlePlayer.actions.gameOver`. Pass a `scores` array:
 
 ```js
 sdk.multiplayer.actions.gameOver({
-  scores: { [playerId]: score }
+  scores: [
+    { playerId: player.id, score: myScore },
+    { playerId: opponent.id, score: opponentScore },
+  ]
 })
 ```
 
@@ -87,7 +86,9 @@ sdk.onToggleMute(({ isMuted }) => {
 ## Tips
 
 - Use `sdk.players` to get the list of players and their IDs.
+- `players[0]` is the opening player in a new match.
 - `onGameStateUpdated` fires whenever another player sends state -- use it to
   keep all clients in sync.
+- Use `multiplayer.actions.refuteGameState({ gameStateId })` if an incoming move is invalid.
 - Do NOT mix `singlePlayer.actions.gameOver` and `multiplayer.actions.gameOver`
   in the same game. Use one or the other.

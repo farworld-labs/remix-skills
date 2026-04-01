@@ -112,7 +112,12 @@ const createItemRes = await fetch(
   {
     method: 'POST',
     headers,
-    body: JSON.stringify({ name: 'Speed Boost', price: 100 }),
+    body: JSON.stringify({
+      name: 'Speed Boost',
+      slug: 'speed-boost',
+      itemType: 'CONSUMABLE',
+      bitsCost: 100,
+    }),
   },
 )
 const createItemJson = await createItemRes.json()
@@ -151,7 +156,7 @@ const gameUpdateRes = await fetch(
   {
     method: 'POST',
     headers,
-    body: JSON.stringify({ isMultiplayer: true }),
+    body: JSON.stringify({ name: 'Neon Dash DX' }),
   },
 )
 const gameUpdateJson = await gameUpdateRes.json()

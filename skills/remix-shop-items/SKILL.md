@@ -13,14 +13,14 @@ for games on the Remix platform.
 ## Prerequisites
 
 - A game must already exist.
-- Reuse `gameId` from `.remix-settings.json` or `.remix-cli.json` when available.
+- Reuse `gameId` from task context, `.remix-cli.json`, or legacy `.remix-mcp.json` when available.
 - Use the official CLI or MCP toolchain when possible instead of handwritten HTTP.
 
 ## Steps
 
 ### 1. Check for Existing Game ID
 
-Read `.remix-settings.json` or `.remix-cli.json` in the current directory. If either exists and contains a `gameId`, use that value.
+Read task context first, then `.remix-cli.json`, then legacy `.remix-mcp.json`. If any of those sources contains a `gameId`, use that value.
 
 Only if neither file exists or neither has a `gameId` should you
 follow the **upload-game** workflow to create one.

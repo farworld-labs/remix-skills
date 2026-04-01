@@ -11,16 +11,17 @@ This skill guides you through creating a new HTML game on the Remix platform.
 
 ## Prerequisites
 
-- The `REMIX_API_KEY` environment variable must be set.
+- Auth should already be available through `REMIX_API_KEY` or saved CLI credentials from `remix login`.
 
 ## Constraints
 
-- The game must target a **2:3 aspect ratio** (e.g. 720x1080).
-- It must fill the entire viewport at that ratio -- use `width: 100vw; height: 100vh`
-  on the game container. No scrollbars, no overflow.
+- The game should support both `feed` and `full_screen` mobile contexts.
+- In `full_screen`, keep critical HUD and controls inside `gameInfo.contentSafeAreaInset`.
+- Decorative art can bleed edge-to-edge, but important UI should not.
 - The game **must support touch controls** as the primary input method (the Remix
   platform is primarily mobile/touch-based). Keyboard and mouse controls are
   welcome but optional.
+- Prefer starting gameplay immediately instead of adding a separate start screen.
 
 ## Steps
 
@@ -28,6 +29,9 @@ This skill guides you through creating a new HTML game on the Remix platform.
 
 Decide on the game concept, mechanics, and visual style. Keep scope small --
 a single-file HTML game should be playable in under 30 seconds.
+
+Plan layout around `await window.RemixSDK.ready()` and `window.RemixSDK.gameInfo`
+instead of assuming one fixed aspect ratio.
 
 ### 2. Write the HTML
 
@@ -93,4 +97,6 @@ deploy your HTML code.
 
 - Use `requestAnimationFrame` for game loops, not `setInterval`.
 - Touch controls are required (primary input); keyboard/mouse are optional extras.
+- Use `window.RemixSDK.hapticFeedback()` for important mobile moments instead of `navigator.vibrate()`.
+- Treat `viewContext === "full_screen"` as a safe-area-aware layout mode, not a letterboxed 2:3 viewport.
 - Keep the total HTML under 100KB for fast loading.
