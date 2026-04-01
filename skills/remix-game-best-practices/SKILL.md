@@ -8,7 +8,8 @@ description: Mobile-first game creation best practices for Remix
 ## Mobile-First Requirements
 
 - Build for portrait orientation only.
-- Canvas must be `720x1080` (2:3 aspect ratio).
+- Support both `feed` and `full_screen` contexts from `window.RemixSDK.gameInfo`.
+- In `full_screen`, keep critical HUD and controls inside `contentSafeAreaInset`.
 - Do not use landscape layouts or controls.
 - Design for thumb-friendly interactions and readable UI.
 
@@ -86,7 +87,8 @@ window.RemixSDK.singlePlayer.actions.gameOver({ score: finalScore })
 
 Before finalizing a game, verify:
 
-- Portrait 2:3 canvas (`720x1080`).
+- Portrait layout works in both `feed` and `full_screen`.
+- Critical UI respects `contentSafeAreaInset` in `full_screen`.
 - SDK hooks present (`gameOver`, `onPlayAgain`, `onToggleMute`).
 - No forbidden storage or vibration APIs.
 - Haptics integrated for meaningful gameplay events.

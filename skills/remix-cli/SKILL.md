@@ -55,6 +55,11 @@ remix config where
 remix whoami --json
 ```
 
+Environment overrides:
+
+- `REMIX_API_KEY` for API-key auth
+- `REMIX_API_URL` for CLI API base URL overrides
+
 ## Commands To Reach For
 
 - Auth: `remix login`, `remix whoami`

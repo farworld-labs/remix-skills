@@ -43,11 +43,9 @@ Fix any reported issues before proceeding.
 
 ### 3. Create the Game (if needed)
 
-First, check for a `.remix-settings.json` file in the project root. If it
-exists and contains `gameId` and `versionId`, skip creation and proceed to
-step 4.
+First, check task context, then `.remix-cli.json`, then legacy `.remix-mcp.json`. If one of those sources already contains `gameId` and `versionId`, skip creation and proceed to step 4.
 
-If no settings file exists (or it lacks these IDs), create the game via CLI or REST.
+If none of those sources contains both IDs, create the game via CLI or REST.
 
 CLI:
 
@@ -67,7 +65,7 @@ Content-Type: application/json
 
 The response returns the **game ID** and **version ID**.
 
-After creation succeeds, write the returned IDs to `.remix-settings.json`:
+After creation succeeds, write the returned IDs to `.remix-cli.json`:
 
 ```json
 {
@@ -79,8 +77,7 @@ After creation succeeds, write the returned IDs to `.remix-settings.json`:
 
 ### 4. Upload the Code
 
-Read `gameId` and `versionId` from `.remix-settings.json` (or use the values
-just obtained from creation).
+Read `gameId` and `versionId` from task context, `.remix-cli.json`, or legacy `.remix-mcp.json` (or use the values just obtained from creation).
 
 Preferred CLI path:
 
@@ -90,7 +87,7 @@ remix games versions validate get
 remix games launch-readiness get
 ```
 
-**Read the HTML file** and pass its content as the `code` field in the request body:
+For direct REST usage, read the HTML file and pass its content as the `code` field in the request body:
 
 ```
 POST https://api.remix.gg/v1/games/{gameId}/versions/{versionId}/code

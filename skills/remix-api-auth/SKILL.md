@@ -14,6 +14,8 @@ Use this skill when a user needs to authenticate a terminal, MCP client, or exte
 - REST or custom services: send `Authorization: Bearer <api_key>` to `https://api.remix.gg`.
 - CLI: run `remix login`, then verify with `remix whoami`.
 - MCP: prefer `REMIX_API_KEY`; if unset, the server can reuse CLI credentials from `~/.config/remix/credentials.json`.
+- CLI base URL override: `REMIX_API_URL`.
+- MCP base URL override: `REMIX_API_BASE_URL`.
 
 ## Preferred Terminal Flow
 
@@ -39,6 +41,7 @@ Use one of these checks first:
 
 - `remix whoami`
 - `remix config where`
+- `remix health get`
 - `GET /health`
 - `GET /v1/games` if the user explicitly wants an authenticated data call
 

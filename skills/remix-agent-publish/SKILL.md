@@ -40,10 +40,10 @@ Use this skill when users want to create, upload, validate, or inspect Remix gam
 Current config files:
 
 - `.remix-cli.json` for project-local CLI config (`gameId`, `versionId`)
-- `.remix-settings.json` for MCP workflows and project handoff between MCP tool calls
+- `.remix-mcp.json` as a legacy config file older projects may still carry
 - `~/.config/remix/credentials.json` for CLI credentials that MCP can also reuse
 
-Read whichever file matches the workflow you are using instead of inventing IDs.
+Read task context first, then `.remix-cli.json`, then legacy `.remix-mcp.json` instead of inventing IDs. MCP tools do not persist local config automatically.
 
 ## Inline Validation
 

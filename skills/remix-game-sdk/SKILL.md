@@ -42,7 +42,7 @@ Properties/getters:
 
 Useful `gameInfo` fields:
 
-- `viewContext` for feed/full-screen/challenge/tournament context
+- `viewContext` for `feed`, `full_screen`, `challenge`, or `tournament` context
 - `contentSafeAreaInset` for overlay-safe mobile layout
 - `initialGameState` for persisted state hydration
 
@@ -58,6 +58,8 @@ Single-player actions:
 Multiplayer actions:
 
 - `window.RemixSDK.multiplayer.actions.gameOver({ scores })`
+- `window.RemixSDK.multiplayer.actions.saveGameState({ gameState, alertUserIds })`
+- `window.RemixSDK.multiplayer.actions.refuteGameState({ gameStateId })`
 - `window.RemixSDK.onGameStateUpdated(callback)`
 
 Multiplayer actions/events are optional for basic single-player games.
@@ -103,4 +105,5 @@ initGame()
 - Using non-existent SDK methods such as `vibrate`, `checkpoint`, or `save`.
 - Using `singlePlayer.actions.purchase(...)` in new code when the SDK exposes `sdk.purchase(...)`.
 - Ignoring `contentSafeAreaInset` when HUD or controls can collide with mobile overlays.
+- Treating `viewContext === "full_screen"` like a letterboxed 2:3 canvas instead of adapting HUD and controls to the safe area.
 - Using `localStorage`/`sessionStorage` as primary persistence instead of `saveGameState`.

@@ -21,10 +21,11 @@ via the REST API. Returns a permanent URL you can reference in your game HTML.
 
 **IMPORTANT: Do NOT create a new game without checking first.**
 
-Read `.remix-settings.json` in the current directory. If it exists and contains
-a `gameId`, use that value -- the game is already created.
+Read task context first, then `.remix-cli.json`, then legacy `.remix-mcp.json`.
+If one of those sources contains a `gameId`, use that value -- the game is
+already created.
 
-Only if `.remix-settings.json` does not exist or has no `gameId` should you
+Only if none of those sources contains a `gameId` should you
 follow the **upload-game** workflow to create one.
 
 ### 2. Upload the Asset

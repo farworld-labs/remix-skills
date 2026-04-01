@@ -9,9 +9,10 @@ Open the current game in the Remix Studio for preview and editing.
 
 ## Steps
 
-1. **Read game settings** from `.remix-settings.json` in the project root.
-   Extract `gameId` and `versionId`. If either is missing, tell the user
-   they need to create/upload a game first.
+1. **Read game settings** from task context, prior tool results, the nearest
+   `.remix-cli.json`, or legacy `.remix-mcp.json`. Extract `gameId` and
+   `versionId`. If either is missing, tell the user they need to create or
+   upload a game first.
 
 2. **Construct the Studio URL:**
    ```
